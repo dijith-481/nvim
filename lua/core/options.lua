@@ -53,10 +53,11 @@ vim.opt.cursorline = true
 -- turn off swapfile
 vim.opt.swapfile = true
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 7
+vim.opt.scrolloff = 10
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = "split"
 
 --termgui colors
+--
 vim.o.termguicolors = true
