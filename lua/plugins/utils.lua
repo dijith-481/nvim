@@ -6,7 +6,6 @@ return {
 		vim.keymap.set("n", "-", oil.toggle_float, {})
 	end,
 },
-
 	{
 		"numToStr/Comment.nvim",
 		event = { "BufReadPre", "BufNewFile" },
@@ -76,9 +75,11 @@ return {
 				{ "<leader>s", group = "[S]earch" },
 				{ "<leader>w", group = "[W]orkspace" },
 				{ "<leader>t", group = "[T]oggle" },
+				{ "<leader>n", group = "swap with[N]ext" },
+				{ "<leader>p", group = "swap with[P]revious" },
 				{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
 			},
 		},
 	},
-}
+},
 }
