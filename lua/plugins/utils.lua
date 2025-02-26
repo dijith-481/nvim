@@ -86,4 +86,13 @@ return {
 	"HiPhish/rainbow-delimiters.nvim",
 	config = function() end,
 },
+
+	"nvim-lua/plenary.nvim", -- lua functions that many plugins use
+
+	{
+		"folke/todo-comments.nvim",
+		event = "VimEnter",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = { signs = false },
+	},
 }
