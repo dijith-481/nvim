@@ -6,9 +6,9 @@ return {
 
 		conform.setup({
 			formatters_by_ft = {
-				c = { "clang-format"},
-				cpp = { "clang-format"},
-				fish = { "fish_indent"},
+				c = { "clang-format" },
+				cpp = { "clang-format" },
+				fish = { "fish_indent" },
 				javascript = { "prettier" },
 				rust = { "rustfmt" },
 				tailwind = { "rustywind" },
@@ -24,7 +24,7 @@ return {
 				graphql = { "prettier" },
 				liquid = { "prettier" },
 				lua = { "stylua" },
-				python = { "isort", "black" },
+				python = { "ruff_format" },
 			},
 			format_on_save = {
 				lsp_fallback = true,

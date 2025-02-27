@@ -2,22 +2,56 @@ return {
 
 	"saghen/blink.cmp",
 	dependencies = {
-		"rafamadriz/friendly-snippets",
+		"MahanRahmati/blink-nerdfont.nvim",
 		"mikavilpas/blink-ripgrep.nvim",
+		"xzbdmw/colorful-menu.nvim",
 		"folke/lazydev.nvim",
 		"folke/snacks.nvim",
 		"onsails/lspkind.nvim",
 		"milanglacier/minuet-ai.nvim",
 		"nvim-tree/nvim-web-devicons",
+		{
+			"L3MON4D3/LuaSnip",
+			version = "v2.*",
+			dependencies = "rafamadriz/friendly-snippets",
+			config = function()
+				require("luasnip.loaders.from_vscode").lazy_load()
+			end,
+		},
+		{
+			"Kaiser-Yang/blink-cmp-dictionary",
+			dependencies = { "nvim-lua/plenary.nvim" },
+		},
 	},
 
 	version = "*",
 
 	opts = {
+		snippets = { preset = "luasnip" },
 		completion = {
+			ghost_text = { enabled = true },
+			documentation = {
+				auto_show = true,
+				auto_show_delay_ms = 0,
+			},
+			trigger = {
+				-- show_on_blocked_trigger_characters = {},
+			},
 			menu = {
+				-- auto_show = false,
 				draw = {
+					treesitter = { "lsp" },
+					columns = { { "kind_icon" }, { "label", gap = 1 } },
+					-- columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
 					components = {
+						label = {
+							text = function(ctx)
+								return require("colorful-menu").blink_components_text(ctx)
+							end,
+							highlight = function(ctx)
+								return require("colorful-menu").blink_components_highlight(ctx)
+							end,
+						},
 						kind_icon = {
 							ellipsis = false,
 							text = function(ctx)
@@ -56,6 +90,16 @@ return {
 		signature = { enabled = true },
 		keymap = {
 			preset = "default",
+
+			["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
+
+			["<C-l>"] = { "snippet_forward", "fallback" },
+			["<C-h>"] = { "snippet_backward", "fallback" },
+			["<C-g>"] = {
+				function(cmp)
+					cmp.show({ providers = { "snippets" } })
+				end,
+			},
 			["<A-1>"] = {
 				function(cmp)
 					cmp.accept({ index = 1 })
@@ -121,12 +165,24 @@ return {
 				"snippets",
 				"path",
 				"ripgrep",
-				-- "render-markdown",
+				"nerdfont",
+				"markdown",
 				"minuet",
+				"dictionary",
 			},
 
-			per_filetype = { markdown = { "render-markdown" } },
+			-- per_filetype = { md = { "markdown" } },
 			providers = {
+				lsp = {
+
+					override = {
+						get_trigger_characters = function(self)
+							local trigger_characters = self:get_trigger_characters()
+							vim.list_extend(trigger_characters, { "\n", "\t", " " })
+							return trigger_characters
+						end,
+					},
+				},
 				path = {
 					opts = {
 						get_cwd = function(_)
@@ -134,10 +190,22 @@ return {
 						end,
 					},
 				},
+				snippets = {
+					score_offset = 12,
+				},
+				lsp = {
+					score_offset = 11,
+				},
+				path = {
+					score_offset = 13,
+				},
+				buffer = {
+					score_offset = 9,
+				},
 				lazydev = {
 					name = "LazyDev",
 					module = "lazydev.integrations.blink",
-					score_offset = 100,
+					score_offset = 10,
 				},
 				markdown = {
 					name = "RenderMarkdown",
@@ -147,12 +215,34 @@ return {
 				ripgrep = {
 					module = "blink-ripgrep",
 					name = "Ripgrep",
-					score_offset = 4,
+					score_offset = -4,
 				},
 				minuet = {
 					name = "minuet",
 					module = "minuet.blink",
-					score_offset = 8,
+					score_offset = 2,
+					async = true,
+				},
+				nerdfont = {
+					module = "blink-nerdfont",
+					name = "Nerd Fonts",
+					score_offset = 0, -- Tune by preference
+					opts = { insert = true }, -- Insert nerdfont icon (default) or complete its name
+				},
+				dictionary = {
+					module = "blink-cmp-dictionary",
+					name = "Dict",
+					-- 3 is recommended
+					async = true,
+
+					score_offset = -1,
+					min_keyword_length = 2,
+					opts = {
+						dictionary_files = {
+							vim.fn.expand("../dictionary/words.txt"),
+						},
+						-- options for blink-cmp-dictionary
+					},
 				},
 			},
 		},

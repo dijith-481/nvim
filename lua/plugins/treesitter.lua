@@ -26,6 +26,8 @@ return {
 			},
 			-- ensure these language parsers are installed
 			ensure_installed = {
+				"ninja",
+				"rst",
 				"angular",
 				"python",
 				"json",

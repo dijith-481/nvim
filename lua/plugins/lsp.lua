@@ -114,7 +114,38 @@ return {
 				clangd = {},
 				css_variables = {},
 				-- gopls = {},
-				basedpyright = {},
+				basedpyright = {
+					enabled = true,
+					settings = {
+						basedpyright = {
+							disableOrganizeImports = true,
+							typeCheckingMode = "off",
+						},
+					},
+				},
+				ruff = {
+					on_attach = function(client, bufnr)
+						client.server_capabilities.disableHoverProvider = false
+
+						vim.api.nvim_create_user_command("RuffAutoFix", function()
+							vim.lsp.buf.execute_command({
+								command = "ruff.applyAutofix",
+								arguments = {
+									{ uri = vim.uri_from_bufnr(0) },
+								},
+							})
+						end, { desc = "Ruff: Fix all auto-fixable problems" })
+
+						vim.api.nvim_create_user_command("RuffOrganizeImports", function()
+							vim.lsp.buf.execute_command({
+								command = "ruff.applyOrganizeImports",
+								arguments = {
+									{ uri = vim.uri_from_bufnr(0) },
+								},
+							})
+						end, { desc = "Ruff: Format imports" })
+					end,
+				},
 				rust_analyzer = {},
 				ts_ls = {},
 				--
@@ -128,8 +159,7 @@ return {
 							completion = {
 								callSnippet = "Replace",
 							},
-							-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-							-- diagnostics = { disable = { 'missing-fields' } },
+							diagnostics = { disable = { "missing-fields" } },
 						},
 					},
 				},
@@ -138,12 +168,14 @@ return {
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua", -- Used to format Lua code
+				"ruff",
+				"basedpyright",
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 			require("mason-lspconfig").setup({
 				ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-				automatic_installation = false,
+				automatic_installation = true,
 				handlers = {
 					function(server_name)
 						local server = servers[server_name] or {}

@@ -16,6 +16,9 @@ return {
 				},
 			},
 		},
+		config = function()
+			vim.opt.conceallevel = 2
+		end,
 	},
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
