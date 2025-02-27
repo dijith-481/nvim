@@ -51,11 +51,11 @@ return {
 		},
 		--zen
 		{
-			"<leader>zz",
+			"<leader>z",
 			function()
 				Snacks.zen()
 			end,
-			desc = "zen",
+			desc = "Toggle [Z]en mode",
 		},
 
 		{
@@ -106,7 +106,7 @@ return {
 			function()
 				Snacks.explorer()
 			end,
-			desc = "File Explorer",
+			desc = "File [E]xplorer",
 		},
 		-- find
 		{
@@ -114,42 +114,42 @@ return {
 			function()
 				Snacks.picker.buffers()
 			end,
-			desc = "Buffers",
+			desc = " Find [B]uffers",
 		},
 		{
 			"<leader>fc",
 			function()
 				Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
 			end,
-			desc = "Find Config File",
+			desc = "Find Nvim [C]onfig ",
 		},
 		{
 			"<leader>ff",
 			function()
 				Snacks.picker.files()
 			end,
-			desc = "Find Files",
+			desc = "Find [F]iles",
 		},
 		{
 			"<leader>fg",
 			function()
 				Snacks.picker.git_files()
 			end,
-			desc = "Find Git Files",
+			desc = "Find [G]it Files",
 		},
 		{
 			"<leader>fp",
 			function()
 				Snacks.picker.projects()
 			end,
-			desc = "Projects",
+			desc = "Find [P]rojects",
 		},
 		{
 			"<leader>fr",
 			function()
 				Snacks.picker.recent()
 			end,
-			desc = "Recent",
+			desc = "Find [R]ecent",
 		},
 		-- git
 		{
@@ -157,49 +157,49 @@ return {
 			function()
 				Snacks.picker.git_branches()
 			end,
-			desc = "Git Branches",
+			desc = "Git [B]ranches",
 		},
 		{
 			"<leader>gl",
 			function()
 				Snacks.picker.git_log()
 			end,
-			desc = "Git Log",
+			desc = "Git [L]og",
 		},
 		{
 			"<leader>gL",
 			function()
 				Snacks.picker.git_log_line()
 			end,
-			desc = "Git Log Line",
+			desc = "Git Log [L]ine",
 		},
 		{
 			"<leader>gs",
 			function()
 				Snacks.picker.git_status()
 			end,
-			desc = "Git Status",
+			desc = "Git [S]tatus",
 		},
 		{
 			"<leader>gS",
 			function()
 				Snacks.picker.git_stash()
 			end,
-			desc = "Git Stash",
+			desc = "Git [S]tash",
 		},
 		{
 			"<leader>gd",
 			function()
 				Snacks.picker.git_diff()
 			end,
-			desc = "Git Diff (Hunks)",
+			desc = "Git [D]iff (Hunks)",
 		},
 		{
 			"<leader>gf",
 			function()
 				Snacks.picker.git_log_file()
 			end,
-			desc = "Git Log File",
+			desc = "Git Log [F]ile",
 		},
 		-- Grep
 		{
@@ -207,28 +207,28 @@ return {
 			function()
 				Snacks.picker.lines()
 			end,
-			desc = "Buffer Lines",
+			desc = "[B]uffer Lines",
 		},
 		{
 			"<leader>sB",
 			function()
 				Snacks.picker.grep_buffers()
 			end,
-			desc = "Grep Open Buffers",
+			desc = "Grep Open [B]uffers",
 		},
 		{
 			"<leader>sg",
 			function()
 				Snacks.picker.grep()
 			end,
-			desc = "Grep",
+			desc = "[G]rep",
 		},
 		{
 			"<leader>sw",
 			function()
 				Snacks.picker.grep_word()
 			end,
-			desc = "Visual selection or word",
+			desc = "Grep [W]ord",
 			mode = { "n", "x" },
 		},
 		-- search
@@ -237,147 +237,147 @@ return {
 			function()
 				Snacks.picker.registers()
 			end,
-			desc = "Registers",
+			desc = '["]Registers',
 		},
 		{
 			"<leader>s/",
 			function()
 				Snacks.picker.search_history()
 			end,
-			desc = "Search History",
+			desc = "[/]Search History",
 		},
 		{
 			"<leader>sa",
 			function()
 				Snacks.picker.autocmds()
 			end,
-			desc = "Autocmds",
+			desc = "[A]utocmds",
 		},
 		{
 			"<leader>sb",
 			function()
 				Snacks.picker.lines()
 			end,
-			desc = "Buffer Lines",
+			desc = "[B]uffer Lines",
 		},
 		{
 			"<leader>sc",
 			function()
 				Snacks.picker.command_history()
 			end,
-			desc = "Command History",
+			desc = "[C]ommand History",
 		},
 		{
 			"<leader>sC",
 			function()
 				Snacks.picker.commands()
 			end,
-			desc = "Commands",
+			desc = "[C]ommands",
 		},
 		{
 			"<leader>sd",
 			function()
 				Snacks.picker.diagnostics()
 			end,
-			desc = "Diagnostics",
+			desc = "[D]iagnostics",
 		},
 		{
 			"<leader>sD",
 			function()
 				Snacks.picker.diagnostics_buffer()
 			end,
-			desc = "Buffer Diagnostics",
+			desc = "Buffer [D]iagnostics",
 		},
 		{
 			"<leader>sh",
 			function()
 				Snacks.picker.help()
 			end,
-			desc = "Help Pages",
+			desc = "[H]elp Pages",
 		},
 		{
 			"<leader>sH",
 			function()
 				Snacks.picker.highlights()
 			end,
-			desc = "Highlights",
+			desc = "[H]ighlights",
 		},
 		{
 			"<leader>si",
 			function()
 				Snacks.picker.icons()
 			end,
-			desc = "Icons",
+			desc = "[I]cons",
 		},
 		{
 			"<leader>sj",
 			function()
 				Snacks.picker.jumps()
 			end,
-			desc = "Jumps",
+			desc = "[J]umps",
 		},
 		{
 			"<leader>sk",
 			function()
 				Snacks.picker.keymaps()
 			end,
-			desc = "Keymaps",
+			desc = "[K]eymaps",
 		},
 		{
 			"<leader>sl",
 			function()
 				Snacks.picker.loclist()
 			end,
-			desc = "Location List",
+			desc = "[L]ocation List",
 		},
 		{
 			"<leader>sm",
 			function()
 				Snacks.picker.marks()
 			end,
-			desc = "Marks",
+			desc = "[M]arks",
 		},
 		{
 			"<leader>sM",
 			function()
 				Snacks.picker.man()
 			end,
-			desc = "Man Pages",
+			desc = "[M]an Pages",
 		},
 		{
 			"<leader>sp",
 			function()
 				Snacks.picker.lazy()
 			end,
-			desc = "Search for Plugin Spec",
+			desc = "[P]lugin Spec",
 		},
 		{
 			"<leader>sq",
 			function()
 				Snacks.picker.qflist()
 			end,
-			desc = "Quickfix List",
+			desc = "[Q]uickfix List",
 		},
 		{
 			"<leader>sR",
 			function()
 				Snacks.picker.resume()
 			end,
-			desc = "Resume",
+			desc = "[R]esume",
 		},
 		{
 			"<leader>su",
 			function()
 				Snacks.picker.undo()
 			end,
-			desc = "Undo History",
+			desc = "[U]ndo History",
 		},
 		{
 			"<leader>uC",
 			function()
 				Snacks.picker.colorschemes()
 			end,
-			desc = "Colorschemes",
+			desc = "[C]olorschemes",
 		},
 		-- LSP
 		{
@@ -385,14 +385,14 @@ return {
 			function()
 				Snacks.picker.lsp_definitions()
 			end,
-			desc = "Goto Definition",
+			desc = "Goto [D]efinition",
 		},
 		{
 			"gD",
 			function()
 				Snacks.picker.lsp_declarations()
 			end,
-			desc = "Goto Declaration",
+			desc = "Goto [D]eclaration",
 		},
 		{
 			"gr",
@@ -400,14 +400,14 @@ return {
 				Snacks.picker.lsp_references()
 			end,
 			nowait = true,
-			desc = "References",
+			desc = "[R]eferences",
 		},
 		{
 			"gI",
 			function()
 				Snacks.picker.lsp_implementations()
 			end,
-			desc = "Goto Implementation",
+			desc = "Goto [I]mplementation",
 		},
 		{
 			"gy",
@@ -421,14 +421,14 @@ return {
 			function()
 				Snacks.picker.lsp_symbols()
 			end,
-			desc = "LSP Symbols",
+			desc = "LSP [S]ymbols",
 		},
 		{
 			"<leader>sS",
 			function()
 				Snacks.picker.lsp_workspace_symbols()
 			end,
-			desc = "LSP Workspace Symbols",
+			desc = "LSP Workspace [S]ymbols",
 		},
 	},
 }
