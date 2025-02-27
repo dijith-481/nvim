@@ -12,11 +12,6 @@ return {
 	},
 
 	version = "*",
-	enabled = function()
-		return not vim.tbl_contains({ "markdown" }, vim.bo.filetype)
-			and vim.bo.buftype ~= "prompt"
-			and vim.b.completion ~= false
-	end,
 
 	opts = {
 		completion = {
@@ -126,9 +121,11 @@ return {
 				"snippets",
 				"path",
 				"ripgrep",
+				-- "render-markdown",
 				"minuet",
 			},
 
+			per_filetype = { markdown = { "render-markdown" } },
 			providers = {
 				path = {
 					opts = {
@@ -141,6 +138,11 @@ return {
 					name = "LazyDev",
 					module = "lazydev.integrations.blink",
 					score_offset = 100,
+				},
+				markdown = {
+					name = "RenderMarkdown",
+					module = "render-markdown.integ.blink",
+					fallbacks = { "lsp" },
 				},
 				ripgrep = {
 					module = "blink-ripgrep",
