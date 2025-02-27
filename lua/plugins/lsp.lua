@@ -14,7 +14,6 @@ return {
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			"saghen/blink.nvim",
-
 			{ "williamboman/mason.nvim", opts = {} },
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -41,7 +40,6 @@ return {
 							return client.supports_method(method, { bufnr = bufnr })
 						end
 					end
-
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if
 						client
@@ -51,25 +49,22 @@ return {
 							event.buf
 						)
 					then
-						local highlight_augroup =
-							vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+						local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 							buffer = event.buf,
 							group = highlight_augroup,
 							callback = vim.lsp.buf.document_highlight,
 						})
-
 						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 							buffer = event.buf,
 							group = highlight_augroup,
 							callback = vim.lsp.buf.clear_references,
 						})
-
 						vim.api.nvim_create_autocmd("LspDetach", {
-							group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+							group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
 							callback = function(event2)
 								vim.lsp.buf.clear_references()
-								vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+								vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = event2.buf })
 							end,
 						})
 					end
@@ -80,7 +75,7 @@ return {
 					then
 						map("<leader>th", function()
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
-						end, "[T]oggle Inlay [H]ints")
+						end, "Inlay [H]ints")
 					end
 				end,
 			})
@@ -113,9 +108,13 @@ return {
 			})
 
 			local servers = {
+				angularls = {},
+				bashls = {},
+				hyprls = {},
 				clangd = {},
+				css_variables = {},
 				-- gopls = {},
-				pyright = {},
+				basedpyright = {},
 				rust_analyzer = {},
 				ts_ls = {},
 				--
