@@ -1,46 +1,22 @@
-vim.g.have_nerd_font = false
-
--- Make line numbers default
+vim.g.have_nerd_font = true
 vim.opt.number = true
 vim.opt.relativenumber = true
-
--- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = "a"
-
--- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
-
--- Sync clipboard between OS and Neovim.
-vim.schedule(function()
-	vim.opt.clipboard = "unnamedplus"
-end)
-
--- Enable break indent
+vim.opt.clipboard = "unnamedplus"
 vim.opt.breakindent = true
-
--- Save undo history
 vim.opt.undofile = true
-
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-
 -- Keep signcolumn on by default
 vim.opt.signcolumn = "yes"
-
 -- Decrease update time
 vim.opt.updatetime = 250
-
 -- Decrease mapped sequence wait time
 vim.opt.timeoutlen = 300
-
 -- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-
--- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
 vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
@@ -61,3 +37,32 @@ vim.opt.inccommand = "split"
 --termgui colors
 --
 vim.o.termguicolors = true
+
+vim.api.nvim_create_autocmd("TermOpen", {
+	group = vim.api.nvim_create_augroup("custom-term-open", { clear = true }),
+	callback = function()
+		vim.opt.number = false
+		vim.opt.relativenumber = false
+	end,
+})
+local job_id = 0
+vim.keymap.set("n", "<space>to", function()
+	vim.cmd.vnew()
+	vim.cmd.term()
+	vim.cmd.wincmd("J")
+	vim.api.nvim_win_set_height(0, 5)
+
+	job_id = vim.bo.channel
+end)
+local current_command = ""
+vim.keymap.set("n", "<space>te", function()
+	current_command = vim.fn.input("Command: ")
+end)
+
+vim.keymap.set("n", "<space>tr", function()
+	if current_command == "" then
+		current_command = vim.fn.input("Command: ")
+	end
+
+	vim.fn.chansend(job_id, { current_command .. "\r\n" })
+end)
