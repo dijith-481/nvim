@@ -10,7 +10,9 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 -- Keep signcolumn on by default
 vim.opt.signcolumn = "yes"
+
 -- Decrease update time
+--
 vim.opt.updatetime = 250
 -- Decrease mapped sequence wait time
 vim.opt.timeoutlen = 300
@@ -22,6 +24,9 @@ vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = "split"
+vim.opt.tabstop = 4
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
