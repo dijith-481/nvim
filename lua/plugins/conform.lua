@@ -10,7 +10,6 @@ return {
 				cpp = { "clang-format" },
 				fish = { "fish_indent" },
 				javascript = { "prettier" },
-				rust = { "rustfmt" },
 				tailwind = { "rustywind" },
 				typescript = { "prettier" },
 				javascriptreact = { "prettier" },

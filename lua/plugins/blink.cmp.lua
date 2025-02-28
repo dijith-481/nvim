@@ -29,10 +29,10 @@ return {
 	opts = {
 		snippets = { preset = "luasnip" },
 		completion = {
-			ghost_text = { enabled = true },
+			ghost_text = { enabled = false },
 			documentation = {
 				auto_show = true,
-				auto_show_delay_ms = 0,
+				auto_show_delay_ms = 100,
 			},
 			trigger = {
 				-- show_on_blocked_trigger_characters = {},
@@ -182,6 +182,8 @@ return {
 							return trigger_characters
 						end,
 					},
+
+					score_offset = 11,
 				},
 				path = {
 					opts = {
@@ -189,15 +191,11 @@ return {
 							return vim.fn.getcwd()
 						end,
 					},
+
+					score_offset = 13,
 				},
 				snippets = {
 					score_offset = 12,
-				},
-				lsp = {
-					score_offset = 11,
-				},
-				path = {
-					score_offset = 13,
 				},
 				buffer = {
 					score_offset = 9,

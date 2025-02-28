@@ -403,6 +403,14 @@ return {
 			desc = "[R]eferences",
 		},
 		{
+			"gr",
+			function()
+				Snacks.picker.lsp_references()
+			end,
+			nowait = true,
+			desc = "[R]eferences",
+		},
+		{
 			"gI",
 			function()
 				Snacks.picker.lsp_implementations()

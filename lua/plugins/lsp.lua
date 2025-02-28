@@ -14,7 +14,9 @@ return {
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			"saghen/blink.nvim",
-			{ "williamboman/mason.nvim", opts = {} },
+			{ "williamboman/mason.nvim", opts = {
+				modifiableness = true,
+			} },
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 			{ "j-hui/fidget.nvim", opts = {} },
@@ -29,6 +31,9 @@ return {
 						mode = mode or "n"
 						vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
+
+					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
+					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 					---@param client vim.lsp.Client
 					---@param method vim.lsp.protocol.Method
 					---@param bufnr? integer some lsp support methods only in specific files
@@ -112,7 +117,6 @@ return {
 				bashls = {},
 				hyprls = {},
 				clangd = {},
-				css_variables = {},
 				-- gopls = {},
 				basedpyright = {
 					enabled = true,
@@ -147,7 +151,40 @@ return {
 					end,
 				},
 				rust_analyzer = {},
-				ts_ls = {},
+				emmet_language_server = {
+					filetypes = {
+						"css",
+						"eruby",
+						"html",
+						"htmldjango",
+						"javascriptreact",
+						"less",
+						"pug",
+						"sass",
+						"scss",
+						"typescriptreact",
+					},
+				},
+				-- tailwindcss = {
+				-- 	filetypes = {
+				-- 		"templ",
+				-- 		"vue",
+				-- 		"html",
+				-- 		"astro",
+				-- 		"javascript",
+				-- 		"typescript",
+				-- 		"react",
+				-- 		"htmlangular",
+				-- 	},
+				-- },
+				ts_ls = {
+					settings = {
+						format = { enable = false },
+						-- disable unused vars hint
+						diagnostics = { ignoredCodes = { 6133, 2304 } },
+					},
+				},
+				stylelint_lsp = {},
 				--
 
 				lua_ls = {
@@ -170,8 +207,18 @@ return {
 				"stylua", -- Used to format Lua code
 				"ruff",
 				"basedpyright",
+				"prettier",
+				"rust_analyzer",
+				"stylelint",
+				"stylelint_lsp",
+				"emmet_language_server",
+				"ts_ls",
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+			require("lspconfig").fish_lsp.setup({
+				cmd = { "fish-lsp", "start" },
+				filetypes = { "fish" },
+			})
 
 			require("mason-lspconfig").setup({
 				ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
@@ -188,5 +235,26 @@ return {
 				},
 			})
 		end,
+	},
+	{
+		"luckasRanarison/tailwind-tools.nvim",
+		name = "tailwind-tools",
+		build = ":UpdateRemotePlugins",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"neovim/nvim-lspconfig", -- optional
+		},
+		opts = {
+			filetypes = {
+				"templ",
+				"vue",
+				"html",
+				"astro",
+				"javascript",
+				"typescript",
+				"react",
+				"htmlangular",
+			},
+		}, -- your configuration
 	},
 }

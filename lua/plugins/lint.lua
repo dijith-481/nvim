@@ -5,13 +5,14 @@ return {
 		local lint = require("lint")
 
 		lint.linters_by_ft = {
-			angular = { "nglint" },
+			angular = { "eslint_d" },
 			javascript = { "eslint_d" },
+			css = { "stylelint" },
 			bash = { "bash" },
 			fish = { "fish" },
 			cpp = { "cpplint" },
-			html = { "htmlhint" },
-			-- markdown = { "markdownlint" },
+			-- html = { "htmlhint" },
+			markdown = { "markdownlint" },
 			typescript = { "eslint_d" },
 			javascriptreact = { "eslint_d" },
 			typescriptreact = { "eslint_d" },
