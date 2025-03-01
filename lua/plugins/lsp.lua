@@ -1,6 +1,7 @@
 return {
 	{
 		"folke/lazydev.nvim",
+		lazy = true,
 		ft = "lua",
 		opts = {
 			library = {
@@ -8,10 +9,11 @@ return {
 			},
 		},
 	},
-
-	{ "Bilal2453/luvit-meta", lazy = true },
+	{ "Bilal2453/luvit-meta", ft = "lua" },
 	{
 		"neovim/nvim-lspconfig",
+
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			"saghen/blink.nvim",
 			{ "williamboman/mason.nvim", opts = {
@@ -20,6 +22,26 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 			{ "j-hui/fidget.nvim", opts = {} },
+			{
+				"luckasRanarison/tailwind-tools.nvim",
+				name = "tailwind-tools",
+				build = ":UpdateRemotePlugins",
+				dependencies = {
+					"nvim-treesitter/nvim-treesitter",
+				},
+				opts = {
+					filetypes = {
+						"templ",
+						"vue",
+						"html",
+						"astro",
+						"javascript",
+						"typescript",
+						"react",
+						"htmlangular",
+					},
+				}, -- your configuration
+			},
 		},
 		config = function()
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
@@ -118,6 +140,7 @@ return {
 				hyprls = {},
 				clangd = {},
 				-- gopls = {},
+				efm = {},
 				basedpyright = {
 					enabled = true,
 					settings = {
@@ -150,7 +173,9 @@ return {
 						end, { desc = "Ruff: Format imports" })
 					end,
 				},
-				rust_analyzer = {},
+				rust_analyzer = {
+					capabilities = { capabilities },
+				},
 				emmet_language_server = {
 					filetypes = {
 						"css",
@@ -178,19 +203,22 @@ return {
 				-- 	},
 				-- },
 				ts_ls = {
+
+					capabilities = { capabilities },
 					settings = {
 						format = { enable = false },
 						-- disable unused vars hint
 						diagnostics = { ignoredCodes = { 6133, 2304 } },
 					},
 				},
+				marksman = {},
 				stylelint_lsp = {},
 				--
 
 				lua_ls = {
 					-- cmd = { ... },
 					-- filetypes = { ... },
-					-- capabilities = {},
+					capabilities = { capabilities },
 					settings = {
 						Lua = {
 							completion = {
@@ -213,6 +241,7 @@ return {
 				"stylelint_lsp",
 				"emmet_language_server",
 				"ts_ls",
+				"marksman",
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 			require("lspconfig").fish_lsp.setup({
@@ -235,26 +264,5 @@ return {
 				},
 			})
 		end,
-	},
-	{
-		"luckasRanarison/tailwind-tools.nvim",
-		name = "tailwind-tools",
-		build = ":UpdateRemotePlugins",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"neovim/nvim-lspconfig", -- optional
-		},
-		opts = {
-			filetypes = {
-				"templ",
-				"vue",
-				"html",
-				"astro",
-				"javascript",
-				"typescript",
-				"react",
-				"htmlangular",
-			},
-		}, -- your configuration
 	},
 }
