@@ -1,14 +1,31 @@
 return {
 	"echasnovski/mini.nvim",
+	lazy = false,
 	version = false,
 	config = function()
 		require("mini.pairs").setup()
 		require("mini.ai").setup({ n_lines = 500 })
 		require("mini.surround").setup()
+		require("mini.trailspace").setup()
 		require("mini.operators").setup()
+		require("mini.splitjoin").setup()
+		require("mini.comment").setup()
+		require("mini.jump2d").setup()
+		require("mini.align").setup()
 		require("mini.cursorword").setup()
 		require("mini.icons").setup()
-		require("mini.tabline").setup({ show_icons = false })
+		require("mini.jump").setup()
+		require("mini.tabline").setup()
+		local hipatterns = require("mini.hipatterns")
+		hipatterns.setup({
+			highlighters = {
+				fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
+				hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
+				todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
+				note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
+				hex_color = hipatterns.gen_highlighter.hex_color(),
+			},
+		})
 		-- require("mini.indentscope").setup()
 		local miniclue = require("mini.clue")
 		miniclue.setup({
@@ -26,6 +43,7 @@ return {
 
 				-- `g` key
 				{ mode = "n", keys = "g" },
+				{ mode = "n", keys = "v" },
 				{ mode = "x", keys = "g" },
 
 				{ mode = "n", keys = "]" },
@@ -72,7 +90,7 @@ return {
 			},
 		})
 		local statusline = require("mini.statusline")
-		statusline.setup({ use_icons = vim.g.have_nerd_font })
+		statusline.setup()
 		require("mini.bracketed").setup()
 		---@diagnostic disable-next-line: duplicate-set-field
 		statusline.section_location = function()
