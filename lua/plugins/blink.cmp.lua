@@ -1,15 +1,30 @@
+local source_icons = {
+	minuet = "󱗻",
+	nvim_lsp = "",
+	LSP = "󱉖",
+	buffer = "",
+	luasnip = "",
+	Snippets = "󰅱",
+	path = "󰱽",
+	ripgrep = "󰩫",
+	git = "",
+	tags = "",
+	folder = "󰉖",
+	-- FALLBACK
+	fallback = "󰜚",
+}
 return {
 
 	"saghen/blink.cmp",
+	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
 		"MahanRahmati/blink-nerdfont.nvim",
-		"mikavilpas/blink-ripgrep.nvim",
+		"moyiz/blink-emoji.nvim",
+		"niuiic/blink-cmp-rg.nvim",
+		"disrupted/blink-cmp-conventional-commits",
 		"xzbdmw/colorful-menu.nvim",
-		"folke/lazydev.nvim",
 		"folke/snacks.nvim",
 		"onsails/lspkind.nvim",
-		"milanglacier/minuet-ai.nvim",
-		"nvim-tree/nvim-web-devicons",
 		{
 			"L3MON4D3/LuaSnip",
 			version = "v2.*",
@@ -20,6 +35,7 @@ return {
 		},
 		{
 			"Kaiser-Yang/blink-cmp-dictionary",
+			lazy = true,
 			dependencies = { "nvim-lua/plenary.nvim" },
 		},
 	},
@@ -32,54 +48,60 @@ return {
 			ghost_text = { enabled = false },
 			documentation = {
 				auto_show = true,
-				auto_show_delay_ms = 100,
-			},
-			trigger = {
-				-- show_on_blocked_trigger_characters = {},
+				auto_show_delay_ms = 1000,
 			},
 			menu = {
 				-- auto_show = false,
 				draw = {
-					treesitter = { "lsp" },
-					columns = { { "kind_icon" }, { "label", gap = 1 } },
-					-- columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
+					columns = { { "kind_icon", gap = 1 }, { "label", gap = 1 } },
 					components = {
-						label = {
-							text = function(ctx)
-								return require("colorful-menu").blink_components_text(ctx)
-							end,
-							highlight = function(ctx)
-								return require("colorful-menu").blink_components_highlight(ctx)
-							end,
-						},
 						kind_icon = {
 							ellipsis = false,
 							text = function(ctx)
-								local lspkind = require("lspkind")
-								local icon = ctx.kind_icon
-								if vim.tbl_contains({ "Path" }, ctx.source_name) then
-									local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
-									if dev_icon then
-										icon = dev_icon
-									end
-								else
-									icon = lspkind.symbolic(ctx.kind, {
-										mode = "symbol",
-									})
+								local kind_icon
+								if ctx.source_name == "LSP" then
+									kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+								elseif ctx.kind == "File" then
+									kind_icon, _, _ = require("mini.icons").get("file", ctx.label)
+								elseif ctx.kind == "Folder" then
+									kind_icon = source_icons["folder"]
+								elseif ctx.source_name == "Snippets" then
+									kind_icon = source_icons[ctx.source_name]
+								elseif ctx.source_name == "Nerd Fonts" then
+									kind_icon = ""
+								elseif ctx.source_name == "Buffer" then
+									kind_icon = source_icons["buffer"]
+								elseif ctx.source_name == "Ripgrep" then
+									kind_icon = source_icons["ripgrep"]
 								end
-
-								return icon .. ctx.icon_gap
+								return kind_icon
 							end,
-
 							highlight = function(ctx)
-								local hl = ctx.kind_hl
-								if vim.tbl_contains({ "Path" }, ctx.source_name) then
-									local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
-									if dev_icon then
-										hl = dev_hl
-									end
-								end
+								local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
 								return hl
+							end,
+						},
+						label = {
+							width = { fill = true, max = 60 },
+							text = function(ctx)
+								local highlights_info = require("colorful-menu").blink_highlights(ctx)
+								if highlights_info ~= nil then
+									return highlights_info.label
+								else
+									return ctx.label
+								end
+							end,
+							highlight = function(ctx)
+								local highlights = {}
+								local highlights_info = require("colorful-menu").blink_highlights(ctx)
+								if highlights_info ~= nil then
+									highlights = highlights_info.highlights
+								end
+								for _, idx in ipairs(ctx.label_matched_indices) do
+									table.insert(highlights, { idx, idx + 1, group = "BlinkCmpLabelMatch" })
+								end
+								-- Do something else
+								return highlights
 							end,
 						},
 					},
@@ -90,9 +112,7 @@ return {
 		signature = { enabled = true },
 		keymap = {
 			preset = "default",
-
 			["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
-
 			["<C-l>"] = { "snippet_forward", "fallback" },
 			["<C-h>"] = { "snippet_backward", "fallback" },
 			["<C-g>"] = {
@@ -156,25 +176,22 @@ return {
 			use_nvim_cmp_as_default = true,
 			nerd_font_variant = "mono",
 		},
-		-- },
 		sources = {
 			default = {
 				"lsp",
-				"lazydev",
 				"buffer",
 				"snippets",
 				"path",
 				"ripgrep",
 				"nerdfont",
+				"emoji",
 				"markdown",
 				"minuet",
 				"dictionary",
+				"lazydev",
 			},
-
-			-- per_filetype = { md = { "markdown" } },
 			providers = {
 				lsp = {
-
 					override = {
 						get_trigger_characters = function(self)
 							local trigger_characters = self:get_trigger_characters()
@@ -182,8 +199,8 @@ return {
 							return trigger_characters
 						end,
 					},
-
-					score_offset = 11,
+					max_items = 18,
+					score_offset = 21,
 				},
 				path = {
 					opts = {
@@ -191,55 +208,97 @@ return {
 							return vim.fn.getcwd()
 						end,
 					},
-
-					score_offset = 13,
+					score_offset = 53,
 				},
 				snippets = {
-					score_offset = 12,
+					score_offset = 40,
 				},
 				buffer = {
 					score_offset = 9,
+					max_items = 6,
 				},
 				lazydev = {
 					name = "LazyDev",
 					module = "lazydev.integrations.blink",
-					score_offset = 10,
+					score_offset = 200,
 				},
 				markdown = {
 					name = "RenderMarkdown",
 					module = "render-markdown.integ.blink",
+					score_offset = 400,
 					fallbacks = { "lsp" },
 				},
 				ripgrep = {
-					module = "blink-ripgrep",
+					module = "blink-cmp-rg",
 					name = "Ripgrep",
-					score_offset = -4,
+
+					max_items = 8,
+					---@type blink-cmp-rg.Options
+					opts = {
+						prefix_min_len = 2,
+						get_command = function(context, prefix)
+							return {
+								"rg",
+								"--no-config",
+								"--json",
+								"--word-regexp",
+								"--ignore-case",
+								"--",
+								prefix .. "[\\w_-]+",
+								vim.fs.root(0, ".git") or vim.fn.getcwd(),
+							}
+						end,
+						get_prefix = function(context)
+							return context.line:sub(1, context.cursor[2]):match("[%w_-]+$") or ""
+						end,
+					},
+					score_offset = 10,
 				},
 				minuet = {
 					name = "minuet",
 					module = "minuet.blink",
-					score_offset = 2,
+					score_offset = 40,
 					async = true,
 				},
 				nerdfont = {
 					module = "blink-nerdfont",
 					name = "Nerd Fonts",
-					score_offset = 0, -- Tune by preference
-					opts = { insert = true }, -- Insert nerdfont icon (default) or complete its name
+					score_offset = 40,
+					max_items = 18,
+					opts = { insert = true },
 				},
+				conventional_commits = {
+					name = "Conventional Commits",
+					module = "blink-cmp-conventional-commits",
+					enabled = function()
+						return vim.bo.filetype == "gitcommit"
+					end,
+					---@module 'blink-cmp-conventional-commits'
+					---@type blink-cmp-conventional-commits.Options
+					opts = {},
+				},
+				emoji = {
+					max_items = 8,
+					module = "blink-emoji",
+					name = "Emoji",
+					score_offset = 44,
+					opts = { insert = true, max_items = 5 },
+					should_show_items = function()
+						return vim.o.filetype == "text" or vim.o.filetype == "markdown"
+					end,
+				},
+
 				dictionary = {
 					module = "blink-cmp-dictionary",
 					name = "Dict",
-					-- 3 is recommended
 					async = true,
-
-					score_offset = -1,
-					min_keyword_length = 2,
+					score_offset = 10,
+					min_keyword_length = 5,
+					max_items = 8,
 					opts = {
 						dictionary_files = {
-							vim.fn.expand("../dictionary/words.txt"),
+							vim.fn.expand("~/.config/nvim/lua/dictionary/words.txt"),
 						},
-						-- options for blink-cmp-dictionary
 					},
 				},
 			},
