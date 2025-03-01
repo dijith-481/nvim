@@ -1,10 +1,15 @@
 return {
 	{
 		"stevearc/oil.nvim",
+		event = "VimEnter",
+		dependencies = { "echasnovski/mini.nvim" },
 		config = function()
-			local oil = require("oil")
-			oil.setup()
-			vim.keymap.set("n", "-", oil.toggle_float, {})
+			require("oil").setup({
+				win_options = {
+					signcolumn = "yes:2",
+				},
+			})
+			vim.keymap.set("n", "-", require("oil").toggle_float, {})
 			vim.api.nvim_create_autocmd("User", {
 				pattern = "OilActionsPost",
 				callback = function(event)
@@ -19,8 +24,9 @@ return {
 	{
 		"numToStr/Comment.nvim",
 		event = { "BufReadPre", "BufNewFile" },
+		"refractalize/oil-git-status.nvim",
 		dependencies = {
-			"JoosepAlviste/nvim-ts-context-commentstring",
+			"stevearc/oil.nvim",
 		},
 		config = function()
 			-- import comment plugin safely
