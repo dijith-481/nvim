@@ -24,10 +24,10 @@ keymap.set("n", "<leader>wp", "<cmd>tabp<CR>", { desc = "[P]revious tab" }) --  
 keymap.set("n", "<leader>wq", "<cmd>tabnew %<CR>", { desc = "[Q] current buffer in new tab" }) --  move current buffer to new tab
 
 --disable arrow keys
-keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')
-keymap.set("n", "<right>", '<cmd>echo "Use l to move!!"<CR>')
-keymap.set("n", "<up>", '<cmd>echo "Use k to move!!"<CR>')
-keymap.set("n", "<down>", '<cmd>echo "Use j to move!!"<CR>')
+-- keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')
+-- keymap.set("n", "<right>", '<cmd>echo "Use l to move!!"<CR>')
+-- keymap.set("n", "<up>", '<cmd>echo "Use k to move!!"<CR>')
+-- keymap.set("n", "<down>", '<cmd>echo "Use j to move!!"<CR>')
 
 --move fucus to window
 keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })

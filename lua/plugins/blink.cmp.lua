@@ -5,6 +5,7 @@ local source_icons = {
 	buffer = "",
 	luasnip = "",
 	Snippets = "󰅱",
+	dict = "󱀽",
 	path = "󰱽",
 	ripgrep = "󰩫",
 	git = "",
@@ -14,7 +15,6 @@ local source_icons = {
 	fallback = "󰜚",
 }
 return {
-
 	"saghen/blink.cmp",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
@@ -43,6 +43,7 @@ return {
 	version = "*",
 
 	opts = {
+		fuzzy = { implementation = "prefer_rust_with_warning" },
 		snippets = { preset = "luasnip" },
 		completion = {
 			ghost_text = { enabled = false },
@@ -51,7 +52,7 @@ return {
 				auto_show_delay_ms = 1000,
 			},
 			menu = {
-				-- auto_show = false,
+				-- auto_show = true,
 				draw = {
 					columns = { { "kind_icon", gap = 1 }, { "label", gap = 1 } },
 					components = {
@@ -71,6 +72,8 @@ return {
 									kind_icon = ""
 								elseif ctx.source_name == "Buffer" then
 									kind_icon = source_icons["buffer"]
+								elseif ctx.source_name == "Dict" then
+									kind_icon = source_icons["dict"]
 								elseif ctx.source_name == "Ripgrep" then
 									kind_icon = source_icons["ripgrep"]
 								end
@@ -173,7 +176,7 @@ return {
 			["<A-y>"] = require("minuet").make_blink_map(),
 		},
 		appearance = {
-			use_nvim_cmp_as_default = true,
+			use_nvim_cmp_as_default = false,
 			nerd_font_variant = "mono",
 		},
 		sources = {
@@ -200,7 +203,7 @@ return {
 						end,
 					},
 					max_items = 18,
-					score_offset = 21,
+					score_offset = 51,
 				},
 				path = {
 					opts = {
@@ -214,18 +217,18 @@ return {
 					score_offset = 40,
 				},
 				buffer = {
-					score_offset = 9,
+					score_offset = 19,
 					max_items = 6,
 				},
 				lazydev = {
 					name = "LazyDev",
 					module = "lazydev.integrations.blink",
-					score_offset = 200,
+					score_offset = 100,
 				},
 				markdown = {
 					name = "RenderMarkdown",
 					module = "render-markdown.integ.blink",
-					score_offset = 400,
+					score_offset = 200,
 					fallbacks = { "lsp" },
 				},
 				ripgrep = {
@@ -235,7 +238,7 @@ return {
 					max_items = 8,
 					---@type blink-cmp-rg.Options
 					opts = {
-						prefix_min_len = 2,
+						prefix_min_len = 4,
 						get_command = function(context, prefix)
 							return {
 								"rg",
@@ -245,14 +248,14 @@ return {
 								"--ignore-case",
 								"--",
 								prefix .. "[\\w_-]+",
-								vim.fs.root(0, ".git") or vim.fn.getcwd(),
+								vim.fn.getcwd(),
 							}
 						end,
 						get_prefix = function(context)
 							return context.line:sub(1, context.cursor[2]):match("[%w_-]+$") or ""
 						end,
 					},
-					score_offset = 10,
+					score_offset = 40,
 				},
 				minuet = {
 					name = "minuet",
@@ -263,7 +266,7 @@ return {
 				nerdfont = {
 					module = "blink-nerdfont",
 					name = "Nerd Fonts",
-					score_offset = 40,
+					score_offset = 30,
 					max_items = 18,
 					opts = { insert = true },
 				},
@@ -281,11 +284,11 @@ return {
 					max_items = 8,
 					module = "blink-emoji",
 					name = "Emoji",
-					score_offset = 44,
+					score_offset = 14,
 					opts = { insert = true, max_items = 5 },
-					should_show_items = function()
-						return vim.o.filetype == "text" or vim.o.filetype == "markdown"
-					end,
+					-- should_show_items = function()
+					-- 	return vim.o.filetype == "text" or vim.o.filetype == "markdown"
+					-- end,
 				},
 
 				dictionary = {
@@ -304,4 +307,5 @@ return {
 			},
 		},
 	},
+	opts_extend = { "sources.default" },
 }

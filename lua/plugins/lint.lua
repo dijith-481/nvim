@@ -8,7 +8,7 @@ return {
 		lint.linters_by_ft = {
 			angular = { "eslint_d" },
 			javascript = { "eslint_d" },
-			css = { "stylelint" },
+			-- css = { "stylelint" },
 			bash = { "bash" },
 			fish = { "fish" },
 			markdown = { "markdownlint" },

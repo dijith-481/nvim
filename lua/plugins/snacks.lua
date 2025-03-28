@@ -3,28 +3,96 @@ return {
 	priority = 1000,
 	lazy = false,
 	opts = {
-		-- your configuration comes here
-		-- or leave it empty to use the default settings
-		-- refer to the configuration section below
-		-- terminal = { enabled = true },
-		animate = { enabled = true },
-		bigfile = { enabled = true },
-		dashboard = { enabled = true },
-		indent = { enabled = true },
-		image = { enabled = true },
+		animate = {},
+		bigfile = {},
+		dashboard = {
+			preset = {
+				---@type fun(cmd:string, opts:table)|nil
+				pick = nil,
+				---@type snacks.dashboard.Item[]
+				keys = {
+					{
+						icon = " ",
+						key = "r",
+						desc = "Recent Files",
+						action = ":lua Snacks.dashboard.pick('oldfiles')",
+					},
+					{ icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+					{ icon = "", key = "d", desc = "daily node", action = ":ObsidianToday" },
+					{ icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+					{
+						icon = " ",
+						key = "g",
+						desc = "Find Text",
+						action = ":lua Snacks.dashboard.pick('live_grep')",
+					},
+					{
+						icon = " ",
+						key = "c",
+						desc = "Config",
+						action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
+					},
+					{ icon = " ", key = "s", desc = "Restore Session", section = "session" },
+					{
+						icon = "󰒲 ",
+						key = "L",
+						desc = "Lazy",
+						action = ":Lazy",
+						enabled = package.loaded.lazy ~= nil,
+					},
+					{ icon = " ", key = "q", desc = "Quit", action = ":qa" },
+				},
+			},
+		},
+		dim = {},
+		gitbrowse = {},
+		image = { enabled = false },
+		indent = {
+			hl = {
+				"SnacksIndent1",
+				"SnacksIndent2",
+				"SnacksIndent3",
+				"SnacksIndent4",
+			},
+		},
+		input = {},
 		picker = {},
 		zen = {},
 		scratch = {},
 		lazygit = {},
-		input = {},
 		notifier = {},
-		quickfile = { enabled = true },
+		quickfile = {},
 		scope = { enabled = true },
 		scroll = { enabled = true },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
 	},
 	keys = {
+		--dim
+		{
+			"<leader>dm",
+			function()
+				Snacks.dim()
+			end,
+			desc = "[D]i[M]",
+		},
+		{
+			"<leader>dn",
+			function()
+				Snacks.dim.disable()
+			end,
+			desc = "[D]i[M]",
+		},
+
+		--gitbroswse
+		{
+			"<leader>gb",
+			function()
+				Snacks.gitbrowse()
+			end,
+			desc = "Git [B]rowse",
+		},
+
 		--term
 		{
 			"<leader>term",
@@ -153,7 +221,7 @@ return {
 		},
 		-- git
 		{
-			"<leader>gb",
+			"<leader>gbc",
 			function()
 				Snacks.picker.git_branches()
 			end,
