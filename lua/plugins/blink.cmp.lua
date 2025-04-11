@@ -25,11 +25,16 @@ return {
 		"xzbdmw/colorful-menu.nvim",
 		"folke/snacks.nvim",
 		"onsails/lspkind.nvim",
+		"rafamadriz/friendly-snippets",
 		{
 			"L3MON4D3/LuaSnip",
 			version = "v2.*",
-			dependencies = "rafamadriz/friendly-snippets",
+			dependencies = { "rafamadriz/friendly-snippets", "mathjiajia/nvim-math-snippets" },
 			config = function()
+				require("luasnip").setup({
+					update_events = "TextChanged,TextChangedI",
+					enable_autosnippets = true,
+				})
 				require("luasnip.loaders.from_vscode").lazy_load()
 			end,
 		},
@@ -43,15 +48,26 @@ return {
 	version = "*",
 
 	opts = {
-		fuzzy = { implementation = "prefer_rust_with_warning" },
+		fuzzy = {
+			sorts = {
+				"exact",
+				"score",
+				"sort_text",
+			},
+			implementation = "prefer_rust_with_warning",
+		},
 		snippets = { preset = "luasnip" },
 		completion = {
 			ghost_text = { enabled = false },
 			documentation = {
+				window = {
+					border = "single",
+				},
 				auto_show = true,
-				auto_show_delay_ms = 1000,
+				auto_show_delay_ms = 500,
 			},
 			menu = {
+				border = "single",
 				-- auto_show = true,
 				draw = {
 					columns = { { "kind_icon", gap = 1 }, { "label", gap = 1 } },
@@ -195,6 +211,8 @@ return {
 			},
 			providers = {
 				lsp = {
+					name = "LSP",
+					module = "blink.cmp.sources.lsp",
 					override = {
 						get_trigger_characters = function(self)
 							local trigger_characters = self:get_trigger_characters()
