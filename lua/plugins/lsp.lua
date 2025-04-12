@@ -176,6 +176,11 @@ return {
 				},
 				rust_analyzer = {
 					capabilities = { capabilities },
+					completion = {
+						capable = {
+							snippets = "add_parenthesis",
+						},
+					},
 				},
 				emmet_language_server = {
 					filetypes = {
@@ -207,9 +212,9 @@ return {
 
 					capabilities = { capabilities },
 					settings = {
-						format = { enable = false },
+						format = { enable = true },
 						-- disable unused vars hint
-						diagnostics = { ignoredCodes = { 6133, 2304 } },
+						-- diagnostics = { ignoredCodes = { 6133, 2304 } },
 					},
 				},
 				marksman = {},
@@ -223,7 +228,8 @@ return {
 					settings = {
 						Lua = {
 							completion = {
-								callSnippet = "Replace",
+								callSnippet = "Disable",
+								keywordSnippet = "Disable",
 							},
 							diagnostics = { disable = { "missing-fields" } },
 						},

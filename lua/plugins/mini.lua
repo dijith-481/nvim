@@ -17,7 +17,11 @@ return {
 					end,
 				},
 			})
-			require("mini.jump2d").setup()
+			require("mini.jump2d").setup({
+				mappings = {
+					start_jumping = "<leader>j",
+				},
+			})
 			require("mini.align").setup()
 			require("mini.cursorword").setup()
 			require("mini.icons").setup()
