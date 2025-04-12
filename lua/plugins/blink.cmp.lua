@@ -11,6 +11,7 @@ local source_icons = {
 	git = "",
 	tags = "",
 	folder = "󰉖",
+	omni = "󰊕",
 	-- FALLBACK
 	fallback = "󰜚",
 }
@@ -29,8 +30,12 @@ return {
 		{
 			"L3MON4D3/LuaSnip",
 			version = "v2.*",
-			dependencies = { "rafamadriz/friendly-snippets", "mathjiajia/nvim-math-snippets" },
+			build = "make install_jsregexp",
+			dependencies = { "rafamadriz/friendly-snippets" },
 			config = function()
+				require("luasnip").filetype_extend("typescript", { "tsdoc" })
+				require("luasnip").filetype_extend("markdown", { "tex" })
+				require("luasnip").filetype_extend("rust", { "rustdoc" })
 				require("luasnip").setup({
 					update_events = "TextChanged,TextChangedI",
 					enable_autosnippets = true,
@@ -61,13 +66,13 @@ return {
 			ghost_text = { enabled = false },
 			documentation = {
 				window = {
-					border = "single",
+					-- border = "single",
 				},
 				auto_show = true,
 				auto_show_delay_ms = 500,
 			},
 			menu = {
-				border = "single",
+				-- border = "rounded",
 				-- auto_show = true,
 				draw = {
 					columns = { { "kind_icon", gap = 1 }, { "label", gap = 1 } },
@@ -88,6 +93,10 @@ return {
 									kind_icon = ""
 								elseif ctx.source_name == "Buffer" then
 									kind_icon = source_icons["buffer"]
+								elseif ctx.source_name == "Emoji" then
+									kind_icon = ""
+								elseif ctx.source_name == "omni" then
+									kind_icon = source_icons["omni"]
 								elseif ctx.source_name == "Dict" then
 									kind_icon = source_icons["dict"]
 								elseif ctx.source_name == "Ripgrep" then
@@ -134,6 +143,8 @@ return {
 			["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
 			["<C-l>"] = { "snippet_forward", "fallback" },
 			["<C-h>"] = { "snippet_backward", "fallback" },
+			["<C-d>"] = { "scroll_documentation_down", "fallback" },
+			["<C-f>"] = { "scroll_documentation_up", "fallback" },
 			["<C-g>"] = {
 				function(cmp)
 					cmp.show({ providers = { "snippets" } })
@@ -196,6 +207,9 @@ return {
 			nerd_font_variant = "mono",
 		},
 		sources = {
+			min_keyword_length = function()
+				return vim.bo.filetype == "markdown" and 2 or 0
+			end,
 			default = {
 				"lsp",
 				"buffer",
@@ -208,6 +222,7 @@ return {
 				"minuet",
 				"dictionary",
 				"lazydev",
+				"omni",
 			},
 			providers = {
 				lsp = {
@@ -226,13 +241,18 @@ return {
 				path = {
 					opts = {
 						get_cwd = function(_)
-							return vim.fn.getcwd()
+							local cwd = vim.fn.getcwd()
+							if vim.fn.filereadable(cwd .. "/angular.json") then
+								return cwd .. "/public"
+							else
+								return cwd
+							end
 						end,
 					},
 					score_offset = 53,
 				},
 				snippets = {
-					score_offset = 40,
+					score_offset = 50,
 				},
 				buffer = {
 					score_offset = 19,
@@ -285,7 +305,7 @@ return {
 					module = "blink-nerdfont",
 					name = "Nerd Fonts",
 					score_offset = 30,
-					max_items = 18,
+					max_items = 8,
 					opts = { insert = true },
 				},
 				conventional_commits = {
@@ -299,7 +319,7 @@ return {
 					opts = {},
 				},
 				emoji = {
-					max_items = 8,
+					max_items = 4,
 					module = "blink-emoji",
 					name = "Emoji",
 					score_offset = 14,

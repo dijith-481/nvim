@@ -5,6 +5,9 @@ return {
 		dependencies = { "echasnovski/mini.nvim" },
 		config = function()
 			require("oil").setup({
+				view_options = {
+					show_hidden = true,
+				},
 				win_options = {
 					signcolumn = "yes:2",
 				},

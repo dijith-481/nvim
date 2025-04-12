@@ -10,8 +10,8 @@ return {
 				blink = {
 					enable_auto_complete = false,
 				},
-				provider = "openai_compatible",
-				-- provider = "gemini",
+				-- provider = "openai_compatible",
+				provider = "gemini",
 				openai_compatible = {
 					model = "llama3-70b-8192",
 					system = "see [Prompt] section for the default value",
