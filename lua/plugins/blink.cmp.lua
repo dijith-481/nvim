@@ -207,9 +207,6 @@ return {
 			nerd_font_variant = "mono",
 		},
 		sources = {
-			min_keyword_length = function()
-				return vim.bo.filetype == "markdown" and 2 or 0
-			end,
 			default = {
 				"lsp",
 				"buffer",
@@ -322,7 +319,7 @@ return {
 					max_items = 4,
 					module = "blink-emoji",
 					name = "Emoji",
-					score_offset = 14,
+					score_offset = 34,
 					opts = { insert = true, max_items = 5 },
 					-- should_show_items = function()
 					-- 	return vim.o.filetype == "text" or vim.o.filetype == "markdown"
