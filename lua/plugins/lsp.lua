@@ -22,27 +22,8 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 			{ "j-hui/fidget.nvim", opts = {} },
-			{
-				"luckasRanarison/tailwind-tools.nvim",
-				name = "tailwind-tools",
-				build = ":UpdateRemotePlugins",
-				dependencies = {
-					"nvim-treesitter/nvim-treesitter",
-				},
-				opts = {
-					filetypes = {
-						"templ",
-						"vue",
-						"html",
-						"astro",
-						"javascript",
-						"typescript",
-						"react",
-						"htmlangular",
-					},
-				}, -- your configuration
-			},
 		},
+		-- },
 		config = function()
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 			require("lspconfig").lua_ls.setup({ capabilities = capabilities })
@@ -196,18 +177,34 @@ return {
 						"typescriptreact",
 					},
 				},
-				-- tailwindcss = {
-				-- 	filetypes = {
-				-- 		"templ",
-				-- 		"vue",
-				-- 		"html",
-				-- 		"astro",
-				-- 		"javascript",
-				-- 		"typescript",
-				-- 		"react",
-				-- 		"htmlangular",
-				-- 	},
-				-- },
+				tailwindcss = {
+					settings = {
+						tailwindCSS = {
+							-- classAttributes = { "class :" },
+							includeLanguages = {
+								rust = "html",
+							},
+							experimental = {
+								classRegex = {
+									"(?:class: ?)(?:'|\"|`)([^\"'`]*)(?:'|\"|`)", -- Twig, looks for string preceded by 'class:'
+								},
+							},
+						},
+					},
+					-- rust = { "class[=:]%s*[\"']([^\"']+)[\"']" },
+
+					filetypes = {
+						"templ",
+						"vue",
+						"html",
+						"rust",
+						"astro",
+						"javascript",
+						"typescript",
+						"react",
+						"htmlangular",
+					},
+				},
 				ts_ls = {
 
 					capabilities = { capabilities },
@@ -272,4 +269,31 @@ return {
 			})
 		end,
 	},
+	-- {
+	-- 	"luckasRanarison/tailwind-tools.nvim",
+	-- 	name = "tailwind-tools",
+	-- 	build = ":UpdateRemotePlugins",
+	-- 	dependencies = {
+	-- 		"nvim-treesitter/nvim-treesitter",
+	-- 		"neovim/nvim-lspconfig",
+	-- 	},
+	-- 	opts = {
+	-- 		extensions = {
+	-- 			patterns = { -- a map of filetypes to Lua pattern lists
+	-- 				-- rust = { "class=[\"']([^\"']+)[\"']" },
+	-- 				rust = { "class:%s*[\"']([^\"']+)[\"']" },
+	-- 				-- javascript = { "clsx%(([^)]+)%)" },
+	-- 			},
+	-- 		},
+	-- 		server = {
+	-- 			override = true,
+	-- 			settings = {
+	-- 				includeLanguages = { rust = "html" },
+	-- 				experimental = {
+	-- 					classRegex = { 'class\\s*:\\s*"([^"]*)' },
+	-- 				},
+	-- 			},
+	-- 		},
+	-- 	},
+	-- },
 }
