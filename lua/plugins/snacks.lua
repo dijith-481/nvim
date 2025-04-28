@@ -463,15 +463,7 @@ return {
 			desc = "Goto [D]eclaration",
 		},
 		{
-			"gr",
-			function()
-				Snacks.picker.lsp_references()
-			end,
-			nowait = true,
-			desc = "[R]eferences",
-		},
-		{
-			"gr",
+			"gR",
 			function()
 				Snacks.picker.lsp_references()
 			end,

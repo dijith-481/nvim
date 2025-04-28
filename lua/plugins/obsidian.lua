@@ -12,7 +12,7 @@ return {
 				workspaces = {
 					{
 						name = "personal",
-						path = "~/syncthing/obsidian/",
+						path = "~/syncthing/notes/daily/",
 					},
 				},
 			})

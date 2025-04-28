@@ -8,6 +8,7 @@ return {
 				c = { "clang-format" },
 				cpp = { "clang-format" },
 				fish = { "fish_indent" },
+				bash = { "shfmt" },
 				javascript = { "prettier" },
 				tailwind = { "rustywind" },
 				typescript = { "prettier" },

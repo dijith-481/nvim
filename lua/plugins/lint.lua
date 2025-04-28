@@ -9,7 +9,7 @@ return {
 			-- angular = { "eslint_d" },
 			-- javascript = { "eslint_d" },
 			-- css = { "stylelint" },
-			bash = { "bash" },
+			bash = { "shellcheck" },
 			fish = { "fish" },
 			-- markdown = { "markdownlint" },
 			-- typescript = { "eslint_d" },
