@@ -239,7 +239,7 @@ return {
 					opts = {
 						get_cwd = function(_)
 							local cwd = vim.fn.getcwd()
-							if vim.fn.filereadable(cwd .. "/angular.json") then
+							if vim.fn.filereadable(cwd .. "/angular.json") == 1 then
 								return cwd .. "/public"
 							else
 								return cwd

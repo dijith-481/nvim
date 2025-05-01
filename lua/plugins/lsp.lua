@@ -252,6 +252,9 @@ return {
 				cmd = { "fish-lsp", "start" },
 				filetypes = { "fish" },
 			})
+			require("lspconfig").dartls.setup({
+				cmd = { "dart", "language-server", "--protocol=lsp" },
+			})
 
 			require("mason-lspconfig").setup({
 				ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
