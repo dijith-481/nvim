@@ -11,6 +11,31 @@ return {
 	},
 	{ "Bilal2453/luvit-meta", ft = "lua" },
 	{
+		"mrcjkb/rustaceanvim",
+		version = "^6", -- Recommended
+		lazy = false, -- This plugin is already lazy
+		config = function()
+			vim.g.rustaceanvim = {
+				-- Plugin configuration
+				tools = {},
+				-- LSP configuration
+				server = {
+					on_attach = function(client, bufnr)
+						-- you can also put keymaps in here
+					end,
+					default_settings = {
+						-- rust-analyzer language server configuration
+						["rust-analyzer"] = {
+							cargo = { features = "all" },
+						},
+					},
+				},
+				-- DAP configuration
+				dap = {},
+			}
+		end,
+	},
+	{
 		"neovim/nvim-lspconfig",
 
 		event = { "BufReadPre", "BufNewFile" },
@@ -155,14 +180,24 @@ return {
 						end, { desc = "Ruff: Format imports" })
 					end,
 				},
-				rust_analyzer = {
-					capabilities = { capabilities },
-					completion = {
-						capable = {
-							snippets = "add_parenthesis",
-						},
-					},
-				},
+				-- rust_analyzer = {
+				-- 	settings = {
+				-- 		rust_analyer = {
+				-- 			check = {
+				-- 				features = "all",
+				-- 			},
+				-- 			cargo = {
+				-- 				features = "all",
+				-- 			},
+				-- 		},
+				-- 	},
+				-- 	capabilities = { capabilities },
+				-- 	completion = {
+				-- 		capable = {
+				-- 			-- snippets = "add_parenthesis",
+				-- 		},
+				-- 	},
+				-- },
 				emmet_language_server = {
 					filetypes = {
 						"css",
@@ -240,7 +275,7 @@ return {
 				"ruff",
 				"basedpyright",
 				"prettier",
-				"rust_analyzer",
+				-- "rust_analyzer",
 				"stylelint",
 				"stylelint_lsp",
 				"emmet_language_server",

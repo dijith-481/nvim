@@ -200,7 +200,7 @@ return {
 					cmp.accept({ index = 10 })
 				end,
 			},
-			["<A-y>"] = require("minuet").make_blink_map(),
+			-- ["<A-y>"] = require("minuet").make_blink_map(),
 		},
 		appearance = {
 			use_nvim_cmp_as_default = false,
@@ -216,7 +216,7 @@ return {
 				"nerdfont",
 				"emoji",
 				"markdown",
-				"minuet",
+				-- "minuet",
 				"dictionary",
 				"lazydev",
 				"omni",
@@ -292,12 +292,12 @@ return {
 					},
 					score_offset = 40,
 				},
-				minuet = {
-					name = "minuet",
-					module = "minuet.blink",
-					score_offset = 40,
-					async = true,
-				},
+				-- minuet = {
+				-- 	name = "minuet",
+				-- 	module = "minuet.blink",
+				-- 	score_offset = 40,
+				-- 	async = true,
+				-- },
 				nerdfont = {
 					module = "blink-nerdfont",
 					name = "Nerd Fonts",

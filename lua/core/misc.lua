@@ -22,9 +22,9 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 	callback = function()
 		local cwd = vim.fn.getcwd()
 		if vim.fn.filereadable(cwd .. "/Dioxus.toml") == 1 then
-			local command = "dx fmt"
+			local command = "dx fmt --file %"
 			vim.cmd("silent ! " .. command)
-			vim.notify("dx fmt", vim.log.levels.INFO, {})
+			-- vim.notify("dx fmt", vim.log.levels.INFO, {})
 		end
 	end,
 })
