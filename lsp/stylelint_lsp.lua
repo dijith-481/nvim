@@ -1,0 +1,3 @@
+return {
+  stylelint_lsp = {},
+}

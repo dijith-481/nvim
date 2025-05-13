@@ -1,0 +1,6 @@
+return {
+	filetype = {
+		"bash",
+		"sh",
+	},
+}
