@@ -13,7 +13,7 @@ Now(function()
 		zen = {},
 		scratch = {},
 		lazygit = {},
-		-- notifier = {},
+		notifier = {},
 		quickfile = {},
 		scope = {},
 		--BUG janky scroll in jk

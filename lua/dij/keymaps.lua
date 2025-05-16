@@ -12,7 +12,7 @@ local keymap = vim.keymap.set
 keymap("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 --diagnostic
-keymap("n", "<leader>q", vim.diagnostic.setloclist, opt("Open diagnostic [Q]uickfix list"))
+keymap("n", "<leader>qq", vim.diagnostic.setloclist, opt("Open diagnostic [Q]uickfix list"))
 keymap("n", "<C-n>", "<Cmd>silent cnext<CR>", opt("Next QF item"))
 keymap("n", "<C-p>", "<Cmd>silent cprevious<CR>", opt("Prev QF item"))
 

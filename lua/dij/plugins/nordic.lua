@@ -11,6 +11,13 @@ Now(function()
 			highlights.CursorLine = {
 				bg = U.blend(palette.blue0, palette.bg, 0.10),
 			}
+			highlights.CursorColumn = {
+				bg = U.blend(palette.blue0, palette.bg, 0.04),
+			}
+			highlights.MiniStatusLineModeNormal = {
+				bg = palette.blue1,
+				fg = palette.black0,
+			}
 			highlights.CursorLineNr = {
 				bg = U.blend(palette.blue0, palette.bg, 0.10),
 				fg = palette.blue1,

@@ -7,9 +7,11 @@ Add({
 	},
 })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
+-- vim.api.nvim_create_autocmd({ "FileType" }, {
+
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
 	group = vim.api.nvim_create_augroup("markdownpreview", { clear = true }),
-	pattern = { "markdown" },
+	pattern = { "*.md" },
 	callback = function()
 		vim.g.mkdp_filetypes = { "markdown" }
 		-- delay  to load the command

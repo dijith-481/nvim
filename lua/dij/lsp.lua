@@ -45,6 +45,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				end,
 			})
 		end
+		if client:supports_method("textDocument/completion") then
+			vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = false })
+		end
 
 		if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
 			map("<leader>th", function()

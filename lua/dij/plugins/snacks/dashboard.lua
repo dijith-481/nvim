@@ -2,8 +2,6 @@ return {
 	width = 60,
 	row = nil, -- dashboard position. nil for center
 	col = nil, -- dashboard position. nil for center
-	autokeys = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", -- autokey sequence
-	-- These settings are used by some built-in sections
 	preset = {
 		pick = nil,
 		keys = {
@@ -34,7 +32,7 @@ return {
 				icon = " ",
 				key = "c",
 				desc = "NeoVim Config",
-				action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
+				action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.expand('$HOME/.config/nvim')})",
 			},
 			{
 				icon = " ",
@@ -89,8 +87,6 @@ btw
 	},
 	sections = {
 		{
-			gap = 1,
-			padding = 1,
 			section = "header",
 		},
 		{ section = "keys", gap = 1, padding = 1 },

@@ -16,6 +16,32 @@ autocmd("BufEnter", {
 	end,
 	desc = "Disable New Line Comment",
 })
+
+autocmd("BufEnter", {
+	callback = function()
+		local dot_git_path = vim.fn.finddir(".git", ".;")
+		return vim.fn.fnamemodify(dot_git_path, ":h")
+	end,
+})
+
+autocmd("BufEnter", {
+	group = vim.api.nvim_create_augroup("todolist", { clear = true }),
+	pattern = "todolist.nvim",
+	callback = function()
+		vim.cmd("edit ~/syncthing/notes/todolist.md")
+		vim.cmd("normal! G")
+	end,
+	desc = "open todolist",
+})
+autocmd({ "TextChanged", "insertleave" }, {
+	group = vim.api.nvim_create_augroup("todolistautosave", { clear = true }),
+	pattern = "*todolist.md",
+	callback = function()
+		vim.cmd("write")
+	end,
+	desc = "autosave",
+})
+
 autocmd("BufWritePost", {
 	group = vim.api.nvim_create_augroup("dioxus-fmt", { clear = true }),
 	pattern = "*.rs",
@@ -81,3 +107,34 @@ vim.keymap.set("n", "<space>tr", function()
 
 	vim.fn.chansend(job_id, { current_command .. "\r\n" })
 end)
+
+local function RestoreCursorPosition()
+	if vim.buftype == "terminal" then
+		return
+	end
+	local ft = vim.bo.filetype
+	if
+		not (ft:match("commit") or ft:match("rebase"))
+		and vim.fn.line("'\"") > 1
+		and vim.fn.line("'\"") <= vim.fn.line("$")
+	then
+		vim.cmd('normal! g`"')
+	end
+end
+
+autocmd({ "BufRead" }, {
+
+	group = vim.api.nvim_create_augroup("restore-cursor", { clear = true }),
+	pattern = "*",
+	callback = RestoreCursorPosition,
+})
+
+autocmd({ "VimResized" }, {
+	group = vim.api.nvim_create_augroup("equalsplits", { clear = true }),
+	callback = function()
+		local current_tab = vim.api.nvim_get_current_tabpage()
+		vim.cmd("tabdo wincmd =")
+		vim.api.nvim_set_current_tabpage(current_tab)
+	end,
+	desc = "Resize splits with terminal window",
+})

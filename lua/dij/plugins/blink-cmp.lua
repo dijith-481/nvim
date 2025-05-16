@@ -35,7 +35,6 @@ Later(function()
 			"disrupted/blink-cmp-conventional-commits",
 			"xzbdmw/colorful-menu.nvim",
 			"folke/snacks.nvim",
-			-- "onsails/lspkind.nvim",
 			"rafamadriz/friendly-snippets",
 			"Kaiser-Yang/blink-cmp-dictionary",
 			"nvim-lua/plenary.nvim",
@@ -47,25 +46,22 @@ Later(function()
 		checkout = "v1.2.0",
 	})
 	require("blink.cmp").setup({
-		--
-		-- opts = {
-
 		fuzzy = {
 			sorts = {
 				"exact",
 				"score",
 				"sort_text",
 			},
-			-- 			-- implementation = "prefer_rust_with_warning",
 			implementation = "rust",
 		},
 		completion = {
+			trigger = {
+				show_on_blocked_trigger_characters = { " ", "\t", "\n", "\r" },
+			},
 			documentation = {
-				window = {
-					-- border = "single",
-				},
+				window = {},
 				auto_show = true,
-				auto_show_delay_ms = 500,
+				auto_show_delay_ms = 300,
 			},
 			ghost_text = { enabled = false },
 			list = {
@@ -80,9 +76,7 @@ Later(function()
 				draw = {
 					align_to = "none",
 					treesitter = { "lsp" },
-					-- columns = { { "kind_icon", gap = 1 }, { "source_name" } },
-					-- columns = { { "label_description" }, { "kind_icon", "label", gap = 1 } },
-					columns = { { "kind_icon", "label", gap = 1 }, { "label_description", "kind", gap = 1 } },
+					columns = { { "kind_icon", "label", gap = 1 } },
 					components = {
 						label_description = {
 							width = { max = 30 },
@@ -270,7 +264,6 @@ Later(function()
 				env = {
 					name = "Env",
 					module = "blink-cmp-env",
-					--- @type blink-cmp-env.Options
 					opts = {
 						item_kind = require("blink.cmp.types").CompletionItemKind.Variable,
 						show_braces = false,
@@ -353,7 +346,6 @@ Later(function()
 						return vim.bo.filetype == "gitcommit"
 					end,
 					---@module 'blink-cmp-conventional-commits'
-					---@type blink-cmp-conventional-commits.Options
 					opts = {},
 				},
 				emoji = {

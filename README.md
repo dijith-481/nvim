@@ -1,9 +1,6 @@
 # My NeoVim config
 
-- packageManager:Lazy
-- blink.cmp
-- Mini
-- Snacks
-- MarkdownRender
-- minuet
+- packageManager:Mini.deps
+- completion-engine:blink.cmp
+- lsp:builtin lsp nvim-lspconfig for configurations
 - Theme:Nordic

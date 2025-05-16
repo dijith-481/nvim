@@ -32,8 +32,9 @@ local ensure_installed = {
 
 Now(function()
 	Add("mason-org/mason.nvim")
+	require("mason").setup({})
+	-- require("mason-core.path")
 	-- require("mason").setup({})
-	require("mason-core.path")
 	--
 	-- Add("neovim/nvim-lspconfig")
 	-- Add("mason-org/mason-lspconfig.nvim")

@@ -11,8 +11,12 @@ Later(function()
 		workspaces = {
 			{
 				name = "personal",
-				path = "~/syncthing/notes/daily/",
+				path = "~/syncthing/notes",
 			},
+		},
+		daily_notes = {
+			folder = "daily",
+			date_format = "%Y-%m-%d",
 		},
 	})
 	vim.opt.conceallevel = 2
@@ -28,8 +32,12 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
 			workspaces = {
 				{
 					name = "personal",
-					path = "~/syncthing/notes/daily/",
+					path = "~/syncthing/notes",
 				},
+			},
+			daily_notes = {
+				folder = "daily",
+				date_format = "%Y-%m-%d",
 			},
 		})
 		vim.opt.conceallevel = 2

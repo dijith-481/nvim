@@ -17,11 +17,11 @@ local config = {
 		border = "rounded",
 		source = "always",
 		header = "",
-		prefix = "",
+		prefix = "#",
 		suffix = "",
 	},
 	virtual_text = {
-		source = "if_many",
+		source = "always",
 		spacing = 2,
 
 		format = function(diagnostic)

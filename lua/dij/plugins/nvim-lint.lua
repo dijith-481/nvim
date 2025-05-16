@@ -9,7 +9,7 @@ Later(function()
 		bash = { "shellcheck" },
 		fish = { "fish" },
 		-- markdown = { "markdownlint" },
-		-- typescript = { "eslint_d" },
+		typescript = { "eslint" },
 		-- javascriptreact = { "eslint_d" },
 		-- typescriptreact = { "eslint_d" },
 		-- svelte = { "eslint_d" },

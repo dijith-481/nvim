@@ -1,5 +1,6 @@
-vim.o.cmdheight = 0
--- vim.opt.laststatus = 0
+-- vim.o.cmdheight = 0
+vim.o.cursorcolumn = true
+vim.opt.laststatus = 3
 vim.g.have_nerd_font = true
 vim.opt.number = true
 vim.opt.relativenumber = true
