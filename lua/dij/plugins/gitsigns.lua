@@ -1,6 +1,7 @@
 Later(function()
 	Add("lewis6991/gitsigns.nvim")
 	require("gitsigns").setup({
+		signcolumn = false,
 		current_line_blame = true,
 		current_line_blame_opts = {
 			ignore_whitespace = true,

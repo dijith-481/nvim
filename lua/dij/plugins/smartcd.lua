@@ -47,6 +47,8 @@ Later(function()
 			c = { "Makefile" },
 			cpp = { "Makefile" },
 			zig = { "build.zig" },
+			kdl = { "config.kdl" },
+			hyprlang = { "hyprland.conf" },
 		},
 	})
 	vim.keymap.set("n", "<leader>cd", require("smartcd.smartcd").smartcd, { desc = "SmartCd" })

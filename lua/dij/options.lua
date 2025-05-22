@@ -1,5 +1,5 @@
 -- vim.o.cmdheight = 0
-vim.o.cursorcolumn = true
+-- vim.o.cursorcolumn = true
 vim.opt.laststatus = 3
 vim.g.have_nerd_font = true
 vim.opt.number = true
@@ -15,7 +15,7 @@ vim.opt.smartindent = true
 -- vim.opt.wrap = true -- TODO
 vim.o.winborder = "rounded"
 -- Keep signcolumn on by default
-vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = "number"
 -- vim.opt.conceallevel = 0 -- so that `` is visible in markdown files
 vim.opt.hlsearch = true
 vim.opt.numberwidth = 3
@@ -52,3 +52,21 @@ vim.opt.iskeyword:append("_")
 vim.opt.iskeyword:append("-")
 vim.opt.whichwrap:append("<,>,[,]")
 vim.opt.diffopt:append("linematch:60") -- higher probability of  line match in diff
+
+-- 	local cur_num
+-- 	if vim.v.virtnum ~= 0 then
+-- 		return "|"
+-- 	end
+-- 	cur_num = vim.v.lnum
+-- 	return "%=%=%l%=" .. get_fold(cur_num) .. " "
+-- end
+-- vim.o.foldcolumn = "0"
+
+-- vim.o.statuscolumn = "%!v:lua.get_statuscol()"
+
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+-- vim.o.foldenable = true
+-- vim.o.lazyredraw = true
+
+-- vim.o.statuscolumn = require("dij.statuscolumn")

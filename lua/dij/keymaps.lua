@@ -1,7 +1,7 @@
 local opts = { silent = true }
 
 local function opt(desc, others)
-	return vim.tbl_extend("force", opts, { desc = desc }, others or {})
+  return vim.tbl_extend("force", opts, { desc = desc }, others or {})
 end
 
 vim.g.mapleader = " "
@@ -20,16 +20,16 @@ keymap("n", "<C-p>", "<Cmd>silent cprevious<CR>", opt("Prev QF item"))
 keymap("n", "<C-s>", "<C-a>", opt("Increment number")) -- increment
 
 -- window management
-keymap("n", "<leader>wv", "<C-w>v", opt("Split [V]ertically")) -- split window vertically
-keymap("n", "<leader>wh", "<C-w>s", opt("Split [H]orizontally")) -- split window horizontally
-keymap("n", "<leader>we", "<C-w>=", opt("Make [E]qual")) -- make split windows equal width & height
-keymap("n", "<leader>ww", "<cmd>close<CR>", opt("[W] split")) -- close current split window
+keymap("n", "<leader>wv", "<C-w>v", opt("Split [V]ertically"))                       -- split window vertically
+keymap("n", "<leader>wh", "<C-w>s", opt("Split [H]orizontally"))                     -- split window horizontally
+keymap("n", "<leader>we", "<C-w>=", opt("Make [E]qual"))                             -- make split windows equal width & height
+keymap("n", "<leader>ww", "<cmd>close<CR>", opt("[W] split"))                        -- close current split window
 
-keymap("n", "<C-q>", "<cmd>tabnew<CR>", opt(" new Tab")) -- open new tab
-keymap("n", "<C-w>", "<cmd>tabclose<CR>", opt("close  tab")) -- close current tab
+keymap("n", "<C-q>", "<cmd>tabnew<CR>", opt(" new Tab"))                             -- open new tab
+keymap("n", "<C-w>", "<cmd>tabclose<CR>", opt("close  tab"))                         -- close current tab
 --TODO change
-keymap("n", "<C-n>", "<cmd>tabn<CR>", opt("Next tab")) --  go to next tab
-keymap("n", "<C-p>", "<cmd>tabp<CR>", opt("Previous tab")) --  go to previous tab
+keymap("n", "<C-n>", "<cmd>tabn<CR>", opt("Next tab"))                               --  go to next tab
+keymap("n", "<C-p>", "<cmd>tabp<CR>", opt("Previous tab"))                           --  go to previous tab
 keymap("n", "<leader>wq", "<cmd>tabnew %<CR>", opt("[Q] current buffer in new tab")) --  move current buffer to new tab
 
 --disable arrow keys
@@ -55,3 +55,18 @@ keymap("i", "<C-j>", "<Down>", opts)
 keymap("i", "<C-h>", "<Left>", opts)
 keymap("i", "<C-l>", "<Right>", opts)
 -- keymap("v", "p", "P", opts)
+
+vim.keymap.set("n", "<leader>k", function()
+  vim.diagnostic.open_float()
+end, { desc = "Diagnostic float" })
+
+vim.keymap.set('n', 'h', function()
+  local col = vim.fn.col('.')
+  if col ~= 1 then return 'h' end
+  local line = vim.fn.line('.')
+  local foldlevel = vim.fn.foldlevel(line)
+  if foldlevel == 0 then return 'h' end
+  local prev_foldlevel = line > 1 and vim.fn.foldlevel(line - 1) or 0
+  if foldlevel > prev_foldlevel then return 'zc' end
+  return 'h'
+end, { expr = true, noremap = true })

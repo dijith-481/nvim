@@ -17,8 +17,8 @@ Now(function()
 		quickfile = {},
 		scope = {},
 		--BUG janky scroll in jk
-		scroll = {},
-		-- statuscolumn = { enabled = true },
+		-- scroll = {},
+		-- statuscolumn = {},
 		words = {},
 	})
 	require("dij.plugins.snacks.keybinds")

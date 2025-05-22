@@ -1,13 +1,27 @@
 Now(function()
 	Add("stevearc/oil.nvim")
 	Add("refractalize/oil-git-status.nvim")
+	Add("JezerM/oil-lsp-diagnostics.nvim")
 
 	require("oil").setup({
 		view_options = {
 			show_hidden = true,
+
+			---@diagnostic disable-next-line: unused-local
+			is_always_hidden = function(name, bufnr)
+				local m = name:match("^%..$")
+				return m ~= nil
+			end,
 		},
 		win_options = {
 			signcolumn = "yes:2",
+		},
+		watch_for_changes = true,
+		keymaps = {
+			["<CR>"] = "actions.select",
+			["<leader>v"] = { "actions.select", opts = { vertical = true } },
+			["<leader>h"] = { "actions.select", opts = { horizontal = true } },
+			["<C-q>"] = { "actions.select", opts = { tab = true } },
 		},
 	})
 	vim.keymap.set("n", "-", require("oil").toggle_float, {})
@@ -20,4 +34,5 @@ Now(function()
 		end,
 	})
 	require("oil-git-status").setup()
+	require("oil-lsp-diagnostics").setup()
 end)
