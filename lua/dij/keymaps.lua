@@ -70,3 +70,5 @@ vim.keymap.set('n', 'h', function()
   if foldlevel > prev_foldlevel then return 'zc' end
   return 'h'
 end, { expr = true, noremap = true })
+
+vim.keymap.set("x", "/", "<Esc>/\\%V")
