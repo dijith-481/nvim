@@ -88,7 +88,7 @@ vim.opt.fillchars = {
   foldsep = " ",
   foldclose = "",
 }
-local fcs = vim.opt.fillchars:get()
+-- local fcs = vim.opt.fillchars:get()
 --
 -- -- Stolen from Akinsho
 -- local function get_fold(lnum)

@@ -16,9 +16,15 @@ local function fold_on_h()
   local line = vim.fn.line('.')
   local foldlevel = vim.fn.foldlevel(line)
   if foldlevel == 0 then return 'h' end
-  local prev_foldlevel = line > 1 and vim.fn.foldlevel(line - 1) or 0
-  if foldlevel > prev_foldlevel then return 'zc' end
-  return 'h'
+  -- local prev_foldlevel = line > 1 and vim.fn.foldlevel(line - 1) or 0
+  -- if foldlevel > prev_foldlevel then return 'zc' end
+  return 'zc'
+end
+
+local function unfold_on_l()
+  local isOnFold = vim.fn.foldclosed(".") > -1
+  local action = isOnFold and "zo" or "l"
+  return action
 end
 
 vim.g.mapleader = " "
@@ -59,7 +65,8 @@ keymap("i", "<C-l>", "<Right>", opts)
 
 keymap("n", "<leader>k", fn(vim.diagnostic.open_float), opt("Diagnostic float"))
 
-keymap('n', 'h', fold_on_h(), { expr = true, noremap = true })
+keymap('n', 'h', fold_on_h, { expr = true, noremap = true })
+keymap('n', 'l', unfold_on_l, { expr = true, noremap = true })
 
 keymap("x", "/", "<Esc>/\\%V")
 keymap("n", "<leader>p", "\"_dP", opt("Paste [P]revious"))

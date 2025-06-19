@@ -18,8 +18,10 @@ autocmd("TextYankPost", "highlight-yank", function()
 
 
 autocmd("BufEnter", "todolist", function()
-  vim.cmd("edit ~/syncthing/notes/todolist.md")
-  vim.cmd("normal! G")
+  vim.defer_fn(function()
+    vim.cmd("edit ~/syncthing/notes/todolist.md")
+    vim.cmd("normal! G")
+  end, 100)
 end
 , "todolist.nvim"
 , "open todolist"
@@ -98,22 +100,32 @@ end
 , "Resize splits with terminal window"
 )
 
-autocmd({ "BufwritePost" }, "save view on leave", function()
-    vim.cmd.mkview({ mods = { emsg_silent = true } })
+autocmd("bufEnter", "remove cro", function()
+    vim.opt.formatoptions:remove({ "c", "r", "o" })
   end,
   "*"
-  , "save view on leave"
+  , "remove cro"
 )
 
 
-autocmd({ "BufRead" }, "restore-view-on-enter", function()
-  vim.defer_fn(function()
-    if vim.bo.buftype ~= "nofile" then
-      vim.cmd.loadview({ mods = { emsg_silent = true } })
-    end
-  end, 50)
-end
-)
+
+
+-- autocmd({ "BufwritePost" }, "save view on leave", function()
+--     vim.cmd.mkview({ mods = { emsg_silent = true } })
+--   end,
+--   "*"
+--   , "save view on leave"
+-- )
+--
+--
+-- autocmd({ "BufRead" }, "restore-view-on-enter", function()
+--   vim.defer_fn(function()
+--     if vim.bo.buftype ~= "nofile" then
+--       vim.cmd.loadview({ mods = { emsg_silent = true } })
+--     end
+--   end, 50)
+-- end
+-- )
 
 
 -- autocmd({ "BufRead" }, "restore-cursor",
