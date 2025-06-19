@@ -1,7 +1,35 @@
 -- vim.opt.foldminlines = 3
 vim.opt.foldmethod = "expr"
-
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldopen:remove { "search" }
+
+local ns = vim.api.nvim_create_namespace("auto_pause_folds")
+
+-- copied from nvim-origami https://github.com/chrisgrieser/nvim-origami/
+vim.on_key(function(char)
+  if vim.g.scrollview_refreshing then return end -- FIX https://github.com/dstein64/nvim-scrollview/issues/88#issuecomment-1570400161
+  local key = vim.fn.keytrans(char)
+  local isCmdlineSearch = vim.fn.getcmdtype():find("[/?]") ~= nil
+  local isNormalMode = vim.api.nvim_get_mode().mode == "n"
+
+  local searchStarted = (key == "/" or key == "?") and isNormalMode
+  local searchConfirmed = (key == "<CR>" and isCmdlineSearch)
+  local searchCancelled = (key == "<Esc>" and isCmdlineSearch)
+  if not (searchStarted or searchConfirmed or searchCancelled or isNormalMode) then return end
+  local foldsArePaused = not (vim.opt.foldenable:get())
+  -- works for RHS, therefore no need to consider remaps
+  local searchMovement = vim.tbl_contains({ "n", "N", "*", "#" }, key)
+
+  local pauseFold = (searchConfirmed or searchStarted or searchMovement) and not foldsArePaused
+  local unpauseFold = foldsArePaused and (searchCancelled or not searchMovement)
+  if pauseFold then
+    vim.opt_local.foldenable = false
+  elseif unpauseFold then
+    vim.opt_local.foldenable = true
+    pcall(vim.cmd.foldopen, { bang = true }) -- after closing folds, keep the *current* fold open
+  end
+end, ns)
+
 -- vim.api.nvim_create_autocmd("LspAttach", {
 --   desc = "User: Set LSP folding if client supports it",
 --   callback = function(ctx)
@@ -61,12 +89,12 @@ vim.opt.fillchars = {
   foldclose = "",
 }
 local fcs = vim.opt.fillchars:get()
-
--- Stolen from Akinsho
-local function get_fold(lnum)
-  if vim.fn.foldlevel(lnum) <= vim.fn.foldlevel(lnum - 1) then
-    return ""
-  end
-  local fold_sym = vim.fn.foldclosed(lnum) == -1 and "%#FoldOpen#" .. fcs.foldopen or "%#FoldClose#" .. fcs.foldclose
-  return fold_sym
-end
+--
+-- -- Stolen from Akinsho
+-- local function get_fold(lnum)
+--   if vim.fn.foldlevel(lnum) <= vim.fn.foldlevel(lnum - 1) then
+--     return ""
+--   end
+--   local fold_sym = vim.fn.foldclosed(lnum) == -1 and "%#FoldOpen#" .. fcs.foldopen or "%#FoldClose#" .. fcs.foldclose
+--   return fold_sym
+-- end
