@@ -1,6 +1,0 @@
-return {
-	filetype = {
-		"bash",
-		"sh",
-	},
-}
