@@ -20,18 +20,45 @@ Later(function()
 			markdown = { "prettier" },
 			lua = { "stylua" },
 			python = { "ruff_format" },
+			-- rust = { "dx_fmt", "rustfmt", lsp_format = "first" },
+			kdl = { "kdl_fmt" },
 		},
-		format_on_save = {
-			lsp_fallback = true,
-			async = false,
-			timeout_ms = 500,
-		},
+		formatters = {},
+
+		format_on_save = function(bufnr)
+			if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+				return
+			end
+			return { timeout_ms = 500, lsp_fallback = true }
+		end,
 	})
-	vim.keymap.set({ "n", "v" }, "<leader>mp", function()
-		conform.format({
-			lsp_fallback = true,
-			async = false,
-			timeout_ms = 500,
-		})
-	end, { desc = "Format file or range (in visual mode)" })
+
+	vim.api.nvim_create_user_command("FormatDisable", function(args)
+		if args.bang then
+			vim.b.disable_autoformat = true
+		else
+			vim.g.disable_autoformat = true
+		end
+	end, {
+		desc = "Disable autoformat-on-save",
+		bang = true,
+	})
+
+	vim.keymap.set({ "n", "v" }, "<leader>bf", function()
+		require("conform").format({ async = true, lsp_fallback = true })
+	end, { desc = "[F]ormat" })
+	vim.api.nvim_create_user_command("FormatEnable", function()
+		vim.b.disable_autoformat = false
+		vim.g.disable_autoformat = false
+	end, {
+		desc = "[B]uffer [F]ormat",
+	})
+
+	vim.keymap.set("n", "<leader>tf", function()
+		if vim.b.disable_autoformat or vim.g.disable_autoformat then
+			vim.cmd("FormatEnable")
+		else
+			vim.cmd("FormatDisable")
+		end
+	end, { desc = "[T]oggle [F]ormat" })
 end)
