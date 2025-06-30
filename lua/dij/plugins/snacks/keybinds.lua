@@ -12,7 +12,7 @@ return {
   -- keymap("<leader>dm", "dim", "[D]i[M]"),
   -- keymap("<leader>dn", "dim.disable", "[D]i[M]"),
   vim.keymap.set('n', '<leader>dm', function()
-    local ok, Snacks = pcall(require, 'Snacks')
+    local ok, Snacks = pcall(require, 'snacks')
     if not ok then
       return
     end
@@ -81,15 +81,17 @@ return {
   keymap("<leader>su", "picker.undo", "[U]ndo History"),
   keymap("<leader>sz", "picker.zoxide", "[Z]oxide"),
   keymap("<leader>uC", "picker.colorschemes", "[C]olorschemes"),
-  keymap("lc", "picker.lsp_config", "Search [L]SP [C]onfig"),
+  keymap("sL", "picker.lsp_config", "Search [L]SP [C]onfig"),
 
   keymap("gd", "picker.lsp_definitions", "Goto [D]efinition"),
   keymap("gD", "picker.lsp_declarations", "Goto [D]eclaration"),
-  keymap("gR", "picker.lsp_references", "[R]eferences"),
-  keymap("gI", "picker.lsp_implementations", "Goto [I]mplementation"),
-  keymap("gy", "picker.lsp_type_definitions", "Goto T[y]pe Definition"),
-  keymap("<leader>ss", "picker.lsp_symbols", "LSP [S]ymbols"),
-  keymap("<leader>sS", "picker.lsp_workspace_symbols", "LSP Workspace [S]ymbols"),
+  keymap("grD", "picker.lsp_declarations", "Goto [D]eclaration"),
+  keymap("grd", "picker.lsp_definitions", "Goto [D]efinition"),
+  keymap("grr", "picker.lsp_references", "[R]eferences"),
+  keymap("gri", "picker.lsp_implementations", "Goto [I]mplementation"),
+  keymap("grt", "picker.lsp_type_definitions", "Goto T[y]pe Definition"),
+  keymap("gO", "picker.lsp_symbols", "LSP [S]ymbols"),
+  keymap("gW", "picker.lsp_workspace_symbols", "LSP Workspace [S]ymbols"),
 
   vim.keymap.set(
     "n",

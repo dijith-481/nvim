@@ -30,16 +30,8 @@ vim.on_key(function(char)
   end
 end, ns)
 
--- vim.api.nvim_create_autocmd("LspAttach", {
---   desc = "User: Set LSP folding if client supports it",
---   callback = function(ctx)
---     local client = assert(vim.lsp.get_client_by_id(ctx.data.client_id))
---     if client:supports_method("textDocument/foldingRange") then
---       local win = vim.api.nvim_get_current_win()
---       vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
---     end
---   end,
--- })
+
+
 
 local function fold_virt_text(result, s, lnum, coloff)
   if not coloff then
@@ -67,21 +59,24 @@ local function fold_virt_text(result, s, lnum, coloff)
   table.insert(result, { text, hl })
 end
 
-function _G.custom_foldtext()
+function _G.custom_foldtext(not_render_end_string)
   local start = vim.fn.getline(vim.v.foldstart):gsub("\t", string.rep(" ", vim.o.tabstop))
   local end_str = vim.fn.getline(vim.v.foldend)
   local end_ = vim.trim(end_str)
   local result = {}
   fold_virt_text(result, start, vim.v.foldstart - 1)
   local line_count = vim.v.foldend - vim.v.foldstart
-  table.insert(result, { "... ", "Delimiter" })
+  table.insert(result, { "…  ", "Delimiter" })
   table.insert(result, { tostring(line_count), "Delimiter" })
   table.insert(result, { " lines", "Delimiter" })
-  fold_virt_text(result, end_, vim.v.foldend - 1, #(end_str:match("^(%s+)") or ""))
+  if not not_render_end_string then
+    fold_virt_text(result, end_, vim.v.foldend - 1, #(end_str:match("^(%s+)") or ""))
+  end
   return result
 end
 
 vim.opt.foldtext = "v:lua.custom_foldtext()"
+
 vim.opt.fillchars = {
   fold = " ",
   foldopen = "",

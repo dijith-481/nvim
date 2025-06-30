@@ -3,12 +3,12 @@ vim.opt.breakindent = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.cmdheight = 1
 vim.opt.cmdwinheight = 8
-vim.opt.copyindent = true              -- TODO check
+vim.opt.copyindent = true -- TODO check
 vim.opt.cursorline = true
-vim.opt.debug = ""                     --  default value
+vim.opt.debug = "" --  default value
 vim.opt.diffopt:append("linematch:60") -- higher probability of  line match in diff
 vim.opt.expandtab = true
-vim.opt.foldclose = ""                 --  "|all"
+vim.opt.foldclose = "" --  "|all"
 vim.opt.foldcolumn = "1"
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99

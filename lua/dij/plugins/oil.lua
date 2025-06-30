@@ -1,6 +1,14 @@
 Now(function()
 	Add("stevearc/oil.nvim")
-	Add("refractalize/oil-git-status.nvim")
+	Add({
+		source = "stevearc/oil-git-status.nvim",
+		deps = {
+			"stevearc/oil.nvim",
+		},
+	})
+	Add({
+		source = "SirZenith/oil-vcs-status",
+	})
 	Add("JezerM/oil-lsp-diagnostics.nvim")
 
 	require("oil").setup({
@@ -14,7 +22,7 @@ Now(function()
 			end,
 		},
 		win_options = {
-			signcolumn = "yes:2",
+			signcolumn = "yes",
 		},
 		watch_for_changes = true,
 		keymaps = {
@@ -24,6 +32,7 @@ Now(function()
 			["<C-q>"] = { "actions.select", opts = { tab = true } },
 		},
 	})
+
 	vim.keymap.set("n", "-", require("oil").toggle_float, {})
 	vim.api.nvim_create_autocmd("User", {
 		pattern = "OilActionsPost",
@@ -33,6 +42,8 @@ Now(function()
 			end
 		end,
 	})
+
 	require("oil-git-status").setup()
-	require("oil-lsp-diagnostics").setup()
+	-- require("oil-vcs-status").setup()
+	-- require("oil-lsp-diagnostics").setup()
 end)

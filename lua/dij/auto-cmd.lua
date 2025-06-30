@@ -1,5 +1,3 @@
--- local autocmd = vim.api.nvim_create_autocmd
-
 local function autocmd(event, group, cb, pattern, desc)
   vim.api.nvim_create_autocmd(event, {
     desc = desc,
@@ -34,6 +32,16 @@ end
 , "autosave"
 )
 
+
+autocmd("BufWritePost", "dioxus-fmt", function()
+  local cwd = vim.fn.getcwd()
+  if vim.fn.filereadable(cwd .. "/Dioxus.toml") == 1 then
+    local command = "dx fmt --file %"
+    vim.cmd("silent ! " .. command)
+    -- vim.notify("dx fmt", vim.log.levels.INFO, {})
+  end
+end
+)
 
 autocmd("BufWritePost", "dioxus-fmt", function()
   local cwd = vim.fn.getcwd()
