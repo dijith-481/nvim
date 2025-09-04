@@ -24,6 +24,7 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
 	pattern = { "leetcode.nvim" },
 	callback = function()
 		require("leetcode").setup({
+			lang = "rust",
 
 			storage = {
 				home = "~/Dev/leetcode/2025/nvim",

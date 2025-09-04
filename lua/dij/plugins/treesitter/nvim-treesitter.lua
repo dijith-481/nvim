@@ -34,6 +34,8 @@ treesitter.setup({
 		"yaml",
 		"html",
 		"css",
+		"dart",
+		"java",
 		-- "prisma",
 		"markdown",
 		"markdown_inline",
@@ -54,6 +56,7 @@ treesitter.setup({
 		"cpp",
 		"hyprlang",
 		"jsonc",
+		"zig",
 	},
 	incremental_selection = {
 		enable = true,

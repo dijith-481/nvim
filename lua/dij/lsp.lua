@@ -75,6 +75,7 @@ vim.lsp.config.lua_ls = {
 	},
 }
 
+local has_eslint = vim.fs.root(0, { ".eslintrc", ".eslintrc.js", ".eslintrc.json", "eslint.config.js" }) ~= nil
 vim.lsp.config.vtsls = {
 	workspace_required = true,
 	settings = {
@@ -87,8 +88,12 @@ vim.lsp.config.vtsls = {
 				functionLikeReturnTypes = { enabled = true },
 				enumMemberValues = { enabled = true },
 			},
+			validate = true,
 			codelens = {
 				enable = true,
+			},
+			diagnostics = {
+				ignoredCodes = { 6133 },
 			},
 		},
 	},
@@ -108,4 +113,7 @@ vim.lsp.enable({
 	"stylelint_lsp",
 	"tailwindcss",
 	"vtsls",
+	"jdtls",
+	"clangd",
+	"zls",
 })

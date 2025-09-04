@@ -19,9 +19,11 @@ Later(function()
 			yaml = { "prettier" },
 			markdown = { "prettier" },
 			lua = { "stylua" },
+			dart = { "dart_format" },
 			python = { "ruff_format" },
+			java = { "google_java_format" },
 			-- rust = { "dx_fmt", "rustfmt", lsp_format = "first" },
-			kdl = { "kdl_fmt" },
+			kdl = { "kdlfmt" },
 		},
 		formatters = {},
 
