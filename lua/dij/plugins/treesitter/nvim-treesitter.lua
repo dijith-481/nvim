@@ -33,6 +33,7 @@ treesitter.setup({
 		"regex",
 		"yaml",
 		"html",
+		"astro",
 		"css",
 		"dart",
 		"java",

@@ -115,5 +115,6 @@ vim.lsp.enable({
 	"vtsls",
 	"jdtls",
 	"clangd",
+	"astro",
 	"zls",
 })
